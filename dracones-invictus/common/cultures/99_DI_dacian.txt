@@ -2,17 +2,23 @@
     color = hsv { 0.0 0.5 1.0 }
 
     male_names = {
-        Aptasa Avezina Avizina Bastiza Biciclis Bikili Bikilis Blaesus Blaikisa Blegissa Brasus Burebista Charnabon Comosicus Comozoi Coryllus Coson Cotela
-        Cothelas Cotiso Cotison Dablosa Dadas Dadazai Dadazi Daidour Daizus Damanais Danillo Dapyg Dapyx Dardanos Dardiolai Decaeneus Decebalus Decibalus
-        Decinsada Degis Dekaineos Dekibalos Dekinais Dekinsada Denzibalos Denzibalus Dezibalos Diapalai Dicineus Dicomes Dida Didas Diegis Diengi Diengis Dieri
-        Diernais Diolizis Diourdanos Diourpa Diourpliz Ditoulai Diurpaneus Dorpaneus Dotos Dotouzi Dourpokis Drilgisa Dromichaeta Dromichaetes Duras Eithazi
-        Eithias Eithiokalos Geithozi Gudila Ithiokalos Kaigiza Kaikeisa Komakiza Komozoi Moskon Muca Mucapor Mucatra Naisoulai Nato Natoporus Neisto Orola
-        Oroles Peti Petipor Peto Pierporus Pouridour Rhemaxos Rholes Rigozus Roles Rolouzis Rubobostes Scorillus Scorilo Scoris Scorylo Sinna Tarbus Thia
-        Thiadicem Thiais Thiamarkos Thiati Thouthoila Tia Tiati Tiatitis Tiato Tiatus Titila Tsinna Tsiru Vezina Zalmodegicus Zalmodegikos Zalmodenicos Zeuta
-        Zinna Zinnas Zoltes Zoubliza Zourai Zourazi Zourdanos Zouroblost Zoutoula Zoutula Zyraxes 
+		# Vanilla
+		Bastiza Bikilis Blegissa Blaesus Blaikisa Brasus Burebista Comosicus Cothelas Cotiso Dablosa Dadas Dadazai Daizus Dapyx Dardiolai Danillo Decibalus Dida Denzibalus Diernais Dotouzi Duras 
+		Kaigiza Komozoi Moskon Mucapor Mucatra Natoporus Orola Petipor Pierporus Rhemaxos Rholes Rubobostes Rolouzis Rigozus Scoris Tiati Tarbus Tsiru Zinna Vezina Zoutoula
+
+		# Dracones Invictus - Dacian
+		Aptasa Avezina Avizina Biciclis Bikili Charnabon Comozoi Coryllus Coson Cotela Cotiso Cotison Dadazi Daidour Damanais Dapyg Dardanos Decaeneus Decebalus
+		Decinsada Degis Dekaineos Dekibalos Dekinais Dekinsada Denzibalos Dezibalos Diapalai Dicineus Dicomes Didas Diegis Diengi Diengis Dieri Diolizis
+		Eithiokalos Geithozi Gudila Ithiokalos Kaikeisa Komakiza Muca Naisoulai Nato Neisto Oroles Peti Peto Pouridour Roles Scorillus Scorilo Scorylo Sinna
+		Thia Thiadicem Thiais Thiamarkos Thiati Thouthoila Tia Tiatitis Tiato Tiatus Titila Tsinna Zalmodegicus Zalmodegikos Zalmodenicos Zeuta Zinnas Zoltes
+		Zoubliza Zourai Zourazi Zourdanos Zouroblost Zoutula Zyraxes
     }
     female_names = {
-        Claria Dokia Duccidava Eccana Meda Oriza Petriturme Raina Rescurai Rescuturme Reskuturme Roibana Sanziana Zia Ziais Zina Zinai Zindurme
+		# Vanilla
+		Duccidava Rescuturme Zina Zinai Petriturme Zindurme Roibana Oriza Rescurai Raina Sanziana Claria Eccana
+
+		# Dracones Invictus - Dacian
+		Dokia Meda Reskuturme Ziais Zia
     }
 
     family = {
