@@ -6,3 +6,5 @@ Features:
  - Many new dacian and thracian male names
  - Many new dacian and thracian female names
  - Moved the thracian culture from the hellenic group into this one
+ - Renamed Zalmoxis/Zalmoxianism to Zamolxis/Zamolxianism
+ - Some distinct flavour descriptions here and there (WIP)
