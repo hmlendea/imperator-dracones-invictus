@@ -96,10 +96,6 @@
     NICKNAME_KALOS
   }
   
-  family = {
-    Agathoclid Alcetid Apollonid Aratid Helladid Omirid Peithid Peneid Philonid Proctid Pytheid Sosiclid Tauromeneid 
-    Therid Theronid Timolid Xenonid Zagreid Zosimid Zoticid Pelopid Philetid Proteid Zenonid Sostratid Tauriskid Sosthenid Pyhrrid Leonidid Killistratid Nikoklid Pantauchid Leukonid Onomastid Kephistodid Karsid Nikokrid Persid Hippostratid Epandrid Gylippid Helenid Megalid Charinid Dydid Dionid Hiketasid  
-  }
   culture = {
     macedonian = {}
     parthinian = {}
@@ -141,9 +137,8 @@
     PELASGOI
   }
   
-  
-  
   graphical_culture = greek_gfx
+  
   ethnicities = {
     10 = greek
   }

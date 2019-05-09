@@ -1,5 +1,5 @@
 ﻿dacian = {
-  color = hsv { 0.451 0.294 0.157 }
+  color = hsv { 0.0 0.5 1.0 }
 
   male_names = {
     # Vanilla
