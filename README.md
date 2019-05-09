@@ -6,4 +6,4 @@ Features:
  - Many new dacian and thracian male names
  - Many new dacian and thracian female names
  - Moved the thracian culture from the hellenic group into this one
- - New colour for the culture group (cyan as RTW's thracian faction colour)
+ - New colour for the culture group (cyan as RTW's dacian faction colour)

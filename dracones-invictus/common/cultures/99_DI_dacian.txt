@@ -1,5 +1,5 @@
 ﻿dacian = {
-    color = hsv { 0.0 0.5 1.0 }
+	color = hsv { 0.451 0.294 0.157 }
 
     male_names = {
 		# Vanilla
@@ -61,9 +61,10 @@
     }
     
     barbarian_names = {
+		# Vanilla - Dacian
         AEDI BIEPHI BIESSOI CARPI CIAGINSI CROBIDAE PIEPHIGI SUCI TERICI TRIXAE
 
-        # Thracian Tribes
+        # Vanilla - Thracian
         MAEDI PAETI SATRI DERSAEI KORPILOI KORELI NIPSAIOI SAPAIOI SINTEIS MELANOPHAGI MELANDITAE CEBRENII
     }
     
