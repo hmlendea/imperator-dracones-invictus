@@ -12,6 +12,12 @@
 		Eithiokalos Geithozi Gudila Ithiokalos Kaikeisa Komakiza Muca Naisoulai Nato Neisto Oroles Peti Peto Pouridour Roles Scorillus Scorilo Scorylo Sinna
 		Thia Thiadicem Thiais Thiamarkos Thiati Thouthoila Tia Tiatitis Tiato Tiatus Titila Tsinna Zalmodegicus Zalmodegikos Zalmodenicos Zeuta Zinnas Zoltes
 		Zoubliza Zourai Zourazi Zourdanos Zouroblost Zoutula Zyraxes
+
+		# Dracones Invictus - Thracian
+		Abrupolis Adaeus Adaios Amadocus Amatokos Beithys Berisades Bithyas Biz Byses Byzas Cersebleptes Cersobleptes Cetriporis Chales Cotys Dentupes Deo Deos
+		Desakenthos Diagil Diagylis Diegylos Diygyles Diza Dyegilos Epta Hales Hebryzelmis Kersivaulos Kersobleptes Kotys Maisades Metokos Muka Odoroes Odryses
+		Orsoaltios Pythodoris Raizdos Rhescuporis Rhoemetalces Roigos Sadalas Sadocos Scostodos Seuthes Sitalces Sitalkes Sitas Skostodokos Sothimes Sparatocos
+		Sparatokos Spartacus Syrmios Syrmos Syrmus Teres Tsizelmi Vologaeses Ziepyrus Zipaibes Ziper Zipyron
     }
     female_names = {
 		# Vanilla
@@ -19,6 +25,10 @@
 
 		# Dracones Invictus - Dacian
 		Dokia Meda Reskuturme Ziais Zia
+
+		# Dracones Invictus - Thracian
+		Aidezyres Benzeis Bidia Blosta Blostis Cosingis Dentusucu Dentusykos Dentysykos Eptesuchis Eptesykos Gepaepyris Maisira Mania Meda Mokasokos Pythodorida
+		Pythodoris Reptatercos
     }
 
     family = {

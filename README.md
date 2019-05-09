@@ -1,8 +1,9 @@
 # Dracones Invictus
 
-A mod for Imperator: Rome that aims to improve and expand upon the Dacian cultures, Zalmoxian religion and the lands occupied by those people.
+A mod for Imperator: Rome that aims to improve and expand upon the Dacian (and Thracian) cultures, Zalmoxian religion and the lands occupied by those people.
 
 Features:
- - Many new dacian male names
- - Many new dacian female names
- 
+ - Many new dacian and thracian male names
+ - Many new dacian and thracian female names
+ - Moved the thracian culture from the hellenic group into this one
+ - New colour for the culture group (cyan as RTW's thracian faction colour)
