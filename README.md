@@ -1,5 +1,6 @@
 # Dracones Invictus
 
+
 A mod for Imperator: Rome that aims to improve and expand upon the Dacian (and Thracian) cultures, Zalmoxian religion and the lands occupied by those people.
 
 Features:
@@ -8,3 +9,39 @@ Features:
  - Moved the thracian culture from the hellenic group into this one
  - Renamed Zalmoxis/Zalmoxianism to Zamolxis/Zamolxianism
  - Some distinct flavour descriptions here and there (WIP)
+
+
+# About
+
+This is a mod for Imperator Rome that brings more flavour and changes to the dacian cultures.
+
+It was last updated for Imperator Rome version 1.0.3
+
+# Useful links
+
+- [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus)
+- [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673)
+
+# Installation
+
+Just subscribe to the [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673) of this mod.
+
+If you don't own this game on Steam, or you want to try the in-development version, you can download the latest release from the [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus/releases) and extract the contents into your "mod" directory.
+
+**Note:** This mod is OS-agnostic, which means it will work on all operating systems supported by Imperator Rome (Windows, Linux and Mac)
+
+**UPDATING THE MOD:**
+- This mod gets updated more frequently on GIT than on the Steam Workshop.
+- When manually updating, please remove all the previous files of this mod.
+
+# Contributions
+
+You are welcome to bring any suggestion, feedback or modification to this project.
+
+There are a few ways you can do so:
+
+1. You can create git pull requests for this repository (This requires git knowledge)
+2. You can raise a new "[issue](https://github.com/hmlendea/imperator-dracones-invictus/issues)" for this project
+4. You can reply on the [Steam discussion thread](https://steamcommunity.com/workshop/filedetails/discussion/1745923673/3491891042510117378//)
+
+It would also be very helpful if you could provide a link to a source that can atest the authenticity of your intended changes, when possible.
