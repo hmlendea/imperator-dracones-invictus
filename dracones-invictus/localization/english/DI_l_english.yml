@@ -1,6 +1,8 @@
 ﻿l_english:
- shamanism:0 "Zamolxianism"
- desc_shamanism:0 "Whether Zamolxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zamolxis as a divine being, ascribing many miraculous acts to him."
- omen_vulcan_shamanism:0 "Blessing of Zamolxis"
- omen_vulcan_desc_shamanism:0 "Our father Zamolxis bestow wisdom and insight upon us, which we need to move our people forward. With this gifted knowledge, we can compete with our neighbors and enemies, using newly crafted artifacts of war."
+ shamanism:0 "Zamolxian"
+ convert_to_shamanism:0 "Embrace the Zamolxian Faith"
+ convert_to_shamanism_desc:0 "The teachings of great Zamolxis has become more apparent and important among our young these last years. They look to his words on how to live their lives, and even some of our elders have been affected by this shift to the new faith. It is time the rest of us follow his ideas as well."
+ desc_shamanism:0 "Whether Zamolxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him.."
+ treasure_axe_of_zalmoxis.yml:0 "Zamolxis' Axe"
+ treasure_axe_of_zalmoxis_desc:0 "Zamolxis is a philosopher, forefather, and divinity among the Thracians and Dacians, often portrayed with different weapons or tools."
  
