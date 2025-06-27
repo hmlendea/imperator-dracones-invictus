@@ -7,6 +7,7 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 # Useful links
 
 - [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus)
+- [Nexus Mods page](https://nexusmods.com/imperatorrome/mods/24)
 - [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673)
 
 # Features
@@ -19,12 +20,11 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 
 Just subscribe to the [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673) of this mod.
 
-If you don't own this game on Steam, or you want to try the in-development version, you can download the latest release from the [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus/releases) and extract the contents into your "mod" directory.
+If you don't own this game on Steam, or you want to try the in-development version, you can download the latest release from the [Nexus Mods page](https://nexusmods.com/imperatorrome/mods/24) or the [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus/releases) and extract the contents into your "mod" directory.
 
 **Note:** This mod is OS-agnostic, which means it will work on all operating systems supported by Imperator Rome (Windows, Linux and Mac)
 
 **UPDATING THE MOD:**
-- This mod gets updated more frequently on GIT than on the Steam Workshop.
 - When manually updating, please remove all the previous files of this mod.
 
 # Contributions
