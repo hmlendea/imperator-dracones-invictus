@@ -1,0 +1,29 @@
+name: Steam Workshop
+
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+
+jobs:
+  release:
+    name: Release (Steam Workshop)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Prepare
+      run: |
+          wget "https://github.com/hmlendea/imperator-dracones-invictus/releases/download/${{github.ref_name}}/dracones-invictus_${GITHUB_REF:11}.zip" -O "dracones-invictus.zip"
+          unzip "dracones-invictus.zip" -d "dracones-invictus/"
+
+    - name: Upload
+      uses: hmlendea/steam-workshop-update@latest
+      with:
+        appid: '859580'
+        itemid: '1745923673'
+        path: "dracones-invictus/"
+        changenote: "[url=https://github.com/hmlendea/more-cultural-names/releases/tag/${{github.ref_name}}]Version ${{github.ref_name}}[/url]"
+      env:
+        STEAM_USERNAME: ${{secrets.STEAM_USERNAME}}
+        STEAM_PASSWORD: ${{secrets.STEAM_PASSWORD}}
+        STEAM_2FASEED: ${{secrets.STEAM_2FASEED}}
