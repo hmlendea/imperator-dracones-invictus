@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Build Status](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/build.yml/badge.svg)](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/build.yml) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest)
+[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest)
 
 # About
 
@@ -11,9 +11,7 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 
 # Features
 
- - Many new dacian male names
- - Many new dacian female names
- - Moved the thracian culture from the hellenic group into this one
+ - Many new dacian male and female names
  - Renamed Zalmoxis/Zalmoxianism to Zamolxis/Zamolxianism
  - Some distinct flavour descriptions here and there (WIP)
 
