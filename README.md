@@ -4,8 +4,6 @@
 
 This is a mod for Imperator Rome that brings more flavour and changes to the dacian cultures.
 
-It was last updated for Imperator Rome version 1.0.3
-
 # Useful links
 
 - [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus)
@@ -13,8 +11,8 @@ It was last updated for Imperator Rome version 1.0.3
 
 # Features
 
- - Many new dacian and thracian male names
- - Many new dacian and thracian female names
+ - Many new dacian male names
+ - Many new dacian female names
  - Moved the thracian culture from the hellenic group into this one
  - Renamed Zalmoxis/Zalmoxianism to Zamolxis/Zamolxianism
  - Some distinct flavour descriptions here and there (WIP)
