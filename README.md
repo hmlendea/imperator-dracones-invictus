@@ -7,6 +7,7 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 # Useful links
 
 - [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus)
+- [Nexus Mods page](https://nexusmods.com/imperatorrome/mods/24)
 - [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673)
 
 # Features
@@ -17,15 +18,12 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 
 # Installation
 
-Just subscribe to the [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673) of this mod.
+[![Get it from the Workshop](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/steam-workshop.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673) [![Get it from GitHub](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/github.png)](https://github.com/hmlendea/imperator-dracones-invictus/releases) [![Get it from the Nexus](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/nexus.png)](https://nexusmods.com/imperatorrome/mods/24)
 
-If you don't own this game on Steam, or you want to try the in-development version, you can download the latest release from the [GitHub page](https://github.com/hmlendea/imperator-dracones-invictus/releases) and extract the contents into your "mod" directory.
+## Manual installation
 
-**Note:** This mod is OS-agnostic, which means it will work on all operating systems supported by Imperator Rome (Windows, Linux and Mac)
-
-**UPDATING THE MOD:**
-- This mod gets updated more frequently on GIT than on the Steam Workshop.
-- When manually updating, please remove all the previous files of this mod.
+ - Download the [latest release](https://github.com/hmlendea/more-cultural-names/releases)
+ - Extract the contents into your game's mod directory (delete the old files when updating)
 
 # Contributions
 
