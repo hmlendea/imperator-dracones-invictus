@@ -36,3 +36,11 @@ There are a few ways you can do so:
 4. You can reply on the [Steam discussion thread](https://steamcommunity.com/workshop/filedetails/discussion/1745923673/3491891042510117378//)
 
 It would also be very helpful if you could provide a link to a source that can atest the authenticity of your intended changes, when possible.
+
+## 🛡️ Privacy and Data
+
+Dracones Invictus does not collect, process, transmit, or persist any personal data. The mod consists solely of static Dacian culture definitions and English localisation text that the Imperator: Rome game engine reads locally.
+
+For the detailed description of how the application handles privacy and personal data, see the [Privacy Statement](./PRIVACY.md).
+
+The mod performs no network requests and contains no analytics, diagnostics, telemetry, or update checks. All mod data remains in the local game mod directory under your direct control.
