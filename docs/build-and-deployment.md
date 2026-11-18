@@ -11,23 +11,45 @@ The repository has no compilation step, no dependency restoration, no bundling, 
 | Bundling | No | The directory is the unit |
 | Static analysis | No | No linter or analyser configuration exists |
 | Tests | No | No test project exists |
-| Packaging | Yes, externally | Performed outside the repository when creating the release asset |
-| Publishing | Yes | GitHub Actions uploads to the Steam Workshop |
+| Packaging | Yes | `.github/workflows/github-release.yml` zips the mod directory and descriptor into the release archive |
+| Publishing | Yes | `.github/workflows/github-release.yml` attaches the archive to the GitHub release; `steam-workshop.yml` uploads it to the Steam Workshop |
 
 ## Release pipeline
 
 ```mermaid
 flowchart TD
+    Release[Maintainer publishes a GitHub release] --> Pkg[github-release.yml triggers]
+    Pkg --> Zip[Zip dracones-invictus/ and dracones-invictus.mod]
+    Zip --> Asset[Attach dracones-invictus_VERSION.zip]
     Tag[Maintainer pushes v*.*.* tag] --> Trigger[steam-workshop.yml triggers]
     Trigger --> Download[Download release asset dracones-invictus_TAG.zip]
+    Asset -.-> Download
     Download --> Unzip[Unzip into dracones-invictus/]
     Unzip --> Upload[steam-workshop-update action]
     Upload --> Workshop[Steam Workshop item 1745923673]
 ```
 
-The pipeline does not build anything. It assumes that a release with a correctly named asset already exists for the pushed tag.
+The pipeline does not compile anything. It packages the already-authored mod directory. The `github-release.yml` workflow produces the archive on release publication, and the `steam-workshop.yml` workflow consumes that archive on tag push, so the release must be published before the Workshop upload runs.
 
 ## Workflow reference
+
+### GitHub Release workflow
+
+| Property | Value |
+|----------|-------|
+| File | `.github/workflows/github-release.yml` |
+| Name | `GitHub Release` |
+| Trigger | `release: types: [ published ]`, or manual `workflow_dispatch` with a required `tag` input |
+| Runner | `ubuntu-latest` |
+| Job | `release`, named `Build and publish` |
+| Steps | `Check out the repository`, `Extract the version from the GitHub tag`, `Build the release archive`, `Publish the release asset` |
+| Action used | `softprops/action-gh-release@v2` |
+| Secrets consumed | `GITHUB_TOKEN` |
+| Permission | `contents: write` |
+
+The workflow checks out the released tag, builds `dracones-invictus_<version>.zip` from `dracones-invictus/` and `dracones-invictus.mod`, and attaches it to the release for the requested tag. The version is the tag name with a leading `v` removed.
+
+### Steam Workshop workflow
 
 | Property | Value |
 |----------|-------|
@@ -48,7 +70,7 @@ The download URL is constructed as:
 https://github.com/hmlendea/imperator-dracones-invictus/releases/download/${github.ref_name}/dracones-invictus_${GITHUB_REF:11}.zip
 ```
 
-`${github.ref_name}` is the tag, for example `v2.0.0`. `${GITHUB_REF:11}` strips the `refs/tags/v` prefix, yielding `2.0.0` for that tag. The resulting asset name is therefore `dracones-invictus_2.0.0.zip`, which matches the asset attached to the existing `v2.0.0` release.
+`${github.ref_name}` is the tag, for example `v2.0.0`. `${GITHUB_REF:11}` strips the `refs/tags/v` prefix, yielding `2.0.0` for that tag. The resulting asset name is therefore `dracones-invictus_2.0.0.zip`, which is the name that the `github-release.yml` build step produces.
 
 This construction encodes two contracts: the asset must be attached to the release for the pushed tag, and the version suffix in its filename must match the tag without the leading `v`.
 
@@ -69,19 +91,20 @@ This construction encodes two contracts: the asset must be attached to the relea
 2. Confirm that the culture file declares the complete `dacia_group` with every field present.
 3. Confirm that every localisation key matches a host key exactly.
 4. Run the manual validation checklist in [testing.md](./testing.md).
-5. Create the release for the new tag and manually attach `dracones-invictus_<version>.zip`.
-6. Verify that the tag matches `v*.*.*` and that the version suffix in the asset filename equals the tag without the leading `v`.
-7. Push the tag. The workflow downloads the asset and publishes it to the Workshop.
-8. Verify the workflow run and the resulting Workshop item.
+5. Push the tag matching `v*.*.*` and publish the GitHub release for it.
+6. The `github-release.yml` workflow builds `dracones-invictus_<version>.zip` from the tag and attaches it to the release.
+7. Verify that the version suffix in the asset filename equals the tag without the leading `v`.
+8. The `steam-workshop.yml` workflow downloads the asset and publishes it to the Workshop.
+9. Verify both workflow runs and the resulting Workshop item.
 
-Steps 1 through 6 are manual. The repository automates only steps 7 and the publication itself.
+Steps 1 through 5 are manual. The repository automates the archive construction, the release attachment, and the Workshop publication. Because the Workshop workflow triggers on the tag push while the archive is attached on release publication, publish the release promptly after pushing the tag so the asset exists when the download step runs.
 
 ## Distribution channels
 
 | Channel | Mechanism | Automation | Verification |
 |---------|-----------|------------|--------------|
 | Steam Workshop | Workflow upload to item `1745923673` | Automated on tag push | Inspect the workflow run and the item page |
-| GitHub Releases | Manual attachment of the archive | Not automated in this repository | Inspect the release page |
+| GitHub Releases | Archive attached by the GitHub Release workflow | Automated on release publication | Inspect the workflow run and the release page |
 | Nexus Mods | Manual upload to `imperatorrome/mods/24` | Not automated | Inspect the mod page |
 | Manual installation | Player extracts the archive into the game mod directory | None | Load the game and confirm the content |
 

@@ -12,7 +12,7 @@ Every contract documented here was verified against the mod source in this repos
 | Mod descriptor | The mod | Imperator: Rome launcher and loader | Host schema | `dracones-invictus.mod`, `dracones-invictus/descriptor.mod` |
 | Localisation file | The mod | Imperator: Rome localisation loader | Host schema | `dracones-invictus/localization/english/zzz_DI_l_english.yml` |
 | Override precedence | Host virtual filesystem | Both | Repository-relative path and filename ordering | Whole repository |
-| Release archive | GitHub Releases | Release workflow | Workflow naming convention | `.github/workflows/steam-workshop.yml` |
+| Release archive | GitHub Releases | GitHub Release workflow | Workflow naming convention | `.github/workflows/github-release.yml` |
 
 ## Culture group schema
 
@@ -176,10 +176,11 @@ Because the culture override is file-level rather than record-level, the mod fil
 
 | Concern | Value |
 |---------|-------|
-| Trigger | Push of a tag matching `v*.*.*` |
-| Expected asset name | `dracones-invictus_<tag-without-v>.zip`, for example `dracones-invictus_2.0.0.zip` |
+| Build trigger | Publication of a GitHub release, or manual dispatch with a tag input |
+| Archive name | `dracones-invictus_<tag-without-v>.zip`, for example `dracones-invictus_2.0.0.zip` |
+| Archive content | The `dracones-invictus/` directory tree and the root `dracones-invictus.mod`, at the archive root |
 | Asset location | `https://github.com/hmlendea/imperator-dracones-invictus/releases/download/<tag>/<asset>` |
-| Archive content | The `dracones-invictus/` directory tree at the root of the archive |
+| Consumer trigger | Push of a tag matching `v*.*.*` |
 | Extraction target | `dracones-invictus/` in the workflow workspace |
 | Upload target | Steam Workshop application `859580`, item `1745923673` |
 

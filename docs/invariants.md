@@ -86,13 +86,13 @@ Each invariant below must hold across every revision. A violation is a defect ev
 
 ## I-9: The release asset naming contract holds
 
-**Statement**: The asset attached to a tag `v<version>` is named `dracones-invictus_<version>.zip`.
+**Statement**: The asset attached to a tag `v<version>` is named `dracones-invictus_<version>.zip` and contains the `dracones-invictus/` directory tree at the archive root.
 
-**Reason**: The workflow download step constructs that exact name from the tag.
+**Reason**: The `github-release.yml` build step produces that exact name from the tag, and the `steam-workshop.yml` download step constructs the same name to retrieve it.
 
-**Violation symptom**: The `Prepare` step fails and publication does not occur.
+**Violation symptom**: The build or download step fails and publication does not occur.
 
-**Verification**: Release inspection before pushing the tag.
+**Verification**: Release inspection, and inspection of the attached archive contents.
 
 ## I-10: English remains the only localised language unless a deliberate addition is made
 

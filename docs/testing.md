@@ -65,10 +65,11 @@ Step 7 is expected to reveal the known defect in [operations/troubleshooting.md]
 
 ## Release integration procedure
 
-1. Push a tag matching `v*.*.*` with a correctly named release asset.
-2. Observe the `Prepare` step completing the download and extraction.
-3. Observe the `Upload` step completing.
-4. Confirm that the Workshop item shows the new version.
+1. Push a tag matching `v*.*.*` and publish the GitHub release.
+2. Observe the GitHub Release workflow attaching `dracones-invictus_<version>.zip` to the release.
+3. Observe the Workshop workflow `Prepare` step completing the download and extraction.
+4. Observe the `Upload` step completing.
+5. Confirm that the Workshop item shows the new version.
 
 ## Coverage gaps
 

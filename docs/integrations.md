@@ -8,8 +8,8 @@
 | Imperator: Rome culture loader | Inbound | Reads the culture group definition | Paradox Interactive | Clausewitz-script data at `common/cultures/` |
 | Imperator: Rome localisation loader | Inbound | Reads the text records | Paradox Interactive | Localisation YAML at `localization/english/` |
 | Steam Workshop | Outbound | Publishes and delivers the packaged mod | Valve | Upload action with application and item identifiers |
-| GitHub Releases | Outbound | Hosts the versioned archive that the workflow retrieves | GitHub | Release asset at a deterministic URL |
-| GitHub Actions | Infrastructure | Executes the publication pipeline | GitHub | Tag-triggered workflow |
+| GitHub Releases | Outbound | Hosts the versioned archive that the Workshop workflow retrieves | GitHub | Release asset at a deterministic URL |
+| GitHub Actions | Infrastructure | Executes the publication pipeline | GitHub | Release-published and tag-triggered workflows |
 | Nexus Mods | Outbound, manual | Secondary distribution | Nexus Mods | Manual upload |
 
 ## Integration detail
@@ -37,10 +37,11 @@
 
 | Aspect | Detail |
 |--------|--------|
-| Contract | An asset named `dracones-invictus_<tag-without-v>.zip` attached to the pushed tag |
-| Consumer | The workflow `Prepare` step |
-| Failure semantics | Download failure aborts the job |
-| Mod-side control | The asset is attached manually |
+| Contract | An asset named `dracones-invictus_<tag-without-v>.zip` attached to the published release |
+| Producer | The `github-release.yml` workflow `Build the release archive` step |
+| Consumer | The `steam-workshop.yml` `Prepare` step |
+| Failure semantics | A missing or misnamed asset makes the download fail and abort the job |
+| Mod-side control | The asset is built automatically from the mod directory and the root descriptor |
 
 ## Integration topology
 
@@ -48,10 +49,12 @@
 flowchart LR
     subgraph Repository
         Data[Mod data]
+        Build[github-release.yml]
         Workflow[steam-workshop.yml]
     end
-    Maintainer[Maintainer] -->|Tag push| Workflow
-    Maintainer -->|Attach archive| Releases[GitHub Releases]
+    Maintainer[Maintainer] -->|Publish release| Build
+    Build -->|Attach archive| Releases[GitHub Releases]
+    Maintainer -->|Tag push| Workflow
     Workflow -->|Download| Releases
     Workflow -->|Upload| Workshop[Steam Workshop]
     Maintainer -->|Manual upload| Nexus[Nexus Mods]

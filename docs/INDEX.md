@@ -14,6 +14,7 @@
 | SECURITY.md | Supported versions, report scope, disclosure policy | [SECURITY.md](../SECURITY.md) |
 | LICENSE | GNU General Public License v3.0 | [LICENSE](../LICENSE) |
 | dracones-invictus.mod | Launcher-visible mod descriptor | [dracones-invictus.mod](../dracones-invictus.mod) |
+| .github/workflows/github-release.yml | Release automation (GitHub release archive) | [github-release.yml](../.github/workflows/github-release.yml) |
 | .github/workflows/steam-workshop.yml | Release automation (Steam Workshop upload) | [steam-workshop.yml](../.github/workflows/steam-workshop.yml) |
 | .github/FUNDING.yml | Funding platform configuration | [FUNDING.yml](../.github/FUNDING.yml) |
 
@@ -39,7 +40,7 @@
 | Document | Description |
 |----------|-------------|
 | [flows/startup-and-mounting.md](./flows/startup-and-mounting.md) | Game launch, descriptor validation, virtual filesystem mounting, data resolution order |
-| [flows/release-and-publishing.md](./flows/release-and-publishing.md) | Tag push through archive retrieval to Workshop upload |
+| [flows/release-and-publishing.md](./flows/release-and-publishing.md) | Release publication and tag push through archive attachment and retrieval to Workshop upload |
 
 ### Operations
 

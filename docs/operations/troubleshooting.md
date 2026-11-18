@@ -75,11 +75,19 @@ This usually indicates a partial key correction. Verify each key individually ag
 | The workflow file is on the default branch | `.github/workflows/steam-workshop.yml` |
 | The workflow file is valid YAML | No indentation error |
 
+### The archive build fails
+
+| Check | Expected |
+|-------|----------|
+| The GitHub Release workflow ran for the published release | Yes |
+| The packaged paths exist in the tag | `dracones-invictus/` and `dracones-invictus.mod` |
+
 ### The download step fails
 
 | Check | Expected |
 |-------|----------|
 | A release exists for the tag | Yes |
+| The GitHub Release workflow attached the archive | Yes |
 | The attached asset is named `dracones-invictus_<version>.zip` | Exact, with the leading `v` omitted from the version |
 | The release is published rather than a draft | Published |
 

@@ -20,7 +20,7 @@ There is no mod-side sink.
 |---------|-------|---------|
 | Host game output | Host engine | Host-generated messages, which may include mount warnings for a descriptor issue |
 | Launcher output | Host launcher | Host-generated messages, which may include version warnings |
-| GitHub Actions run output | GitHub | Workflow step results for `Prepare` and `Upload` |
+| GitHub Actions run output | GitHub | Workflow step results for the GitHub Release and Steam Workshop workflows |
 | Steam Workshop item history | Steam | Publication records and change notes |
 
 ## Correlation
