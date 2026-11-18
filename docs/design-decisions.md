@@ -42,7 +42,7 @@ Each decision below is grounded in repository evidence. Where a decision is infe
 
 **Decision**: The root descriptor and the in-package descriptor carry identical values with no include or reference between them.
 
-**Evidence**: Both files exist with the same four fields.
+**Evidence**: Both files exist with the same five fields (`version`, `name`, `tags`, `supported_version`, `path`).
 
 **Rationale**: The host has no include mechanism for descriptors. The duplication is imposed, not chosen.
 
@@ -78,7 +78,7 @@ Each decision below is grounded in repository evidence. Where a decision is infe
 
 **Decision**: The Workshop workflow consumes `hmlendea/steam-workshop-update@latest`, the GitHub Release workflow consumes the pin-major `softprops/action-gh-release@v2`, and the Nexus Mods workflow consumes the pin-minor `Nexus-Mods/upload-action@v1.0.0-beta.11`.
 
-**Evidence**: The `uses` fields in `.github/workflows/steam-workshop.yml`, `.github/workflows/github-release.yml`, and `.github/workflows/nexus-mods-release.yml`.
+**Evidence**: The `uses` fields in `.github/workflows/steam-workshop-release.yml`, `.github/workflows/github-release.yml`, and `.github/workflows/nexus-mods-release.yml`.
 
 **Rationale**: Not evidenced; inferred as convenience for the unpinned reference, because pinning to a commit hash would be the more conservative alternative.
 
@@ -102,7 +102,7 @@ Each decision below is grounded in repository evidence. Where a decision is infe
 
 **Decision**: The repository automates the GitHub release archive, the Steam Workshop upload, and the Nexus Mods upload.
 
-**Evidence**: Three workflows exist (`.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, and `.github/workflows/nexus-mods-release.yml`), and the README installation badges include all three channels.
+**Evidence**: Three workflows exist (`.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, and `.github/workflows/nexus-mods-release.yml`), and the README installation badges include all three channels.
 
 **Rationale**: Not evidenced; inferred from the release, Workshop, and Nexus-specific triggers and workflow content.
 

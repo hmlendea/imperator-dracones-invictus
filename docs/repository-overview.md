@@ -20,9 +20,9 @@ Everything else that a player observes — the game engine, the character naming
 |------|-------|----------|
 | Target host | Imperator: Rome 2.0.x | `supported_version="2.0.*"` in both descriptors |
 | Distribution channels | Steam Workshop, Nexus Mods, GitHub Releases | README installation badges; workflow upload steps |
-| Steam application identifier | `859580` | `.github/workflows/steam-workshop.yml` |
-| Steam Workshop item identifier | `1745923673` | `.github/workflows/steam-workshop.yml` |
-| Release archive production | Automated | Produced and attached by `.github/workflows/github-release.yml` |
+| Steam application identifier | `859580` | `.github/workflows/steam-workshop-release.yml` |
+| Steam Workshop item identifier | `1745923673` | `.github/workflows/steam-workshop-release.yml` |
+| Release archive production | Automated | Produced and attached by `.github/workflows/github-release.yml`; the Workshop and Nexus Mods workflows build their own archives |
 | Licence | GNU General Public License v3.0 | `LICENSE` |
 | Executable content | None | Repository file inventory |
 | Runtime network communication | None | Repository file inventory |
@@ -39,7 +39,7 @@ Everything else that a player observes — the game engine, the character naming
 | Localisation records | 6 declared keys (7 lines including the language header) | `dracones-invictus/localization/english/zzz_DI_l_english.yml` |
 | Descriptors | 2, mutually identical | `dracones-invictus.mod`, `dracones-invictus/descriptor.mod` |
 | Binary assets | 1 thumbnail, 500×500 JPEG | `dracones-invictus/thumb.jpg` |
-| Workflows | 3 | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, `.github/workflows/nexus-mods-release.yml` |
+| Workflows | 3 | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, `.github/workflows/nexus-mods-release.yml` |
 
 ## Entry points
 

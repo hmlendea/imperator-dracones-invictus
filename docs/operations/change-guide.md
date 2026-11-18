@@ -86,9 +86,9 @@ Removing a culture record is prohibited by [invariants.md](../invariants.md) unl
 
 ## Changing the release pipeline
 
-1. Edit `.github/workflows/github-release.yml` to change the release archive, `.github/workflows/steam-workshop.yml` to change the Workshop upload, or `.github/workflows/nexus-mods-release.yml` to change the Nexus Mods upload.
+1. Edit `.github/workflows/github-release.yml` to change the release archive, `.github/workflows/steam-workshop-release.yml` to change the Workshop upload, or `.github/workflows/nexus-mods-release.yml` to change the Nexus Mods upload.
 2. Preserve the trigger patterns unless the release scheme changes.
-3. Preserve the asset name computation unless the asset naming convention changes, and if it changes, update [build-and-deployment.md](../build-and-deployment.md) and the release procedure in both the build and the download steps.
+3. Preserve the asset name computation unless the asset naming convention changes, and if it changes, update [build-and-deployment.md](../build-and-deployment.md) and the release procedure.
 4. Never print, echo, or serialise the environment, because it holds the Steam secrets.
 5. Verify by publishing a test release and pushing a test tag, then inspecting all three run outcomes.
 

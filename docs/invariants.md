@@ -56,7 +56,7 @@ Each invariant below must hold across every revision. A violation is a defect ev
 
 ## I-6: The two descriptors agree
 
-**Statement**: `dracones-invictus.mod` and `dracones-invictus/descriptor.mod` carry identical `name`, `tags`, `supported_version`, and `path` values.
+**Statement**: `dracones-invictus.mod` and `dracones-invictus/descriptor.mod` carry identical `version`, `name`, `tags`, `supported_version`, and `path` values.
 
 **Reason**: The host has no include mechanism, and divergence in the version gate or the mount path produces inconsistent mounting.
 
@@ -88,7 +88,7 @@ Each invariant below must hold across every revision. A violation is a defect ev
 
 **Statement**: The asset attached to a tag `v<version>` is named `dracones-invictus_<version>.zip` and contains the `dracones-invictus/` directory tree at the archive root.
 
-**Reason**: The `github-release.yml` build step produces that exact name from the tag, and the `steam-workshop.yml` download step constructs the same name to retrieve it.
+**Reason**: The `github-release.yml` build step produces that exact name from the tag.
 
 **Violation symptom**: The build or download step fails and publication does not occur.
 

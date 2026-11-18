@@ -31,8 +31,8 @@ stateDiagram-v2
     Authored --> Committed: Commit to the repository
     Committed --> Tagged: Version tag pushed
     Tagged --> Released: Release published and archive attached by the GitHub Release workflow
-    Tagged --> Published: Nexus Mods upload by the Nexus Mods workflow
-    Released --> Published: Workshop upload by the Steam Workshop workflow or manual channel upload
+    Tagged --> Published: Nexus Mods and Steam Workshop uploads by their workflows
+    Released --> Published: Manual channel upload
     Published --> Installed: Player installs or subscribes
     Installed --> Mounted: Host loader reads the data
     Mounted --> Session: Data is active in game

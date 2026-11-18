@@ -16,7 +16,7 @@ sequenceDiagram
     participant M as Maintainer
     participant G as GitHub Releases
     participant A as GitHub Actions (github-release.yml)
-    participant W as GitHub Actions (steam-workshop.yml)
+    participant W as GitHub Actions (steam-workshop-release.yml)
     participant N as GitHub Actions (nexus-mods-release.yml)
     participant S as Steam Workshop
     participant X as Nexus Mods
@@ -30,12 +30,11 @@ sequenceDiagram
     A->>A: Build dracones-invictus_X.Y.Z.zip from the mod directory and descriptor
     A->>G: Attach the archive to the release
     M->>W: Tag push vX.Y.Z
-    W->>W: Match the trigger pattern v*.*.*
-    W->>G: Download the asset for the tag
-    G-->>W: The archive
-    W->>W: Unzip into dracones-invictus/
+    W->>W: Check out the tag and build release.zip
+    W->>W: Unzip into release/
     W->>S: Upload with appid 859580 and itemid 1745923673
     S-->>W: Item updated
+    M->>N: Tag push vX.Y.Z
     N->>N: Check out the tag and build release.zip
     N->>X: Upload to file 526528
     X-->>N: File updated
@@ -52,26 +51,24 @@ sequenceDiagram
 | 3 | Actions (`github-release.yml`) | The released tag | A checked-out tag | A malformed tag reference fails the job |
 | 4 | Actions (`github-release.yml`) | The tag name | A version with the leading `v` stripped | A tag outside the scheme produces an odd archive name |
 | 5 | Actions (`github-release.yml`) | The mod directory and descriptor | An attached archive | A missing path fails the `zip` step |
-| 6 | Maintainer | Tag | A Workshop workflow trigger | A tag outside the pattern does not trigger anything |
-| 7 | Actions (`steam-workshop.yml`) | The tag reference | A resolved asset URL | A malformed construction fails the download |
-| 8 | Actions (`steam-workshop.yml`) | The asset URL | The archive in the workspace | A download failure aborts the job |
-| 9 | Actions (`steam-workshop.yml`) | The archive | The mod directory in the workspace | An extra nesting level produces a doubly nested tree; see [build-and-deployment.md](../build-and-deployment.md) |
-| 10 | Actions (`steam-workshop.yml`) | The directory and the secrets | A published Workshop revision | An authentication or interface failure aborts the job |
-| 11 | Actions (`nexus-mods-release.yml`) | The tag and the secrets | A built archive | A missing path or an authentication failure aborts the job |
-| 12 | Actions (`nexus-mods-release.yml`) | The archive | An updated Nexus Mods file | An upload or version conflict aborts the job |
-| 13 | Player | A subscription or download | The updated mod | None |
+| 6 | Maintainer | Tag | A Workshop and Nexus Mods workflow trigger | A tag outside the pattern does not trigger anything |
+| 7 | Actions (`steam-workshop-release.yml`) | The tag | A checked-out tag and a built archive | A missing path fails the `zip` step |
+| 8 | Actions (`steam-workshop-release.yml`) | The archive | The extracted tree under `release/` | An extra nesting level produces a doubly nested tree; see [build-and-deployment.md](../build-and-deployment.md) |
+| 9 | Actions (`steam-workshop-release.yml`) | The directory and the secrets | A published Workshop revision | An authentication or interface failure aborts the job |
+| 10 | Actions (`nexus-mods-release.yml`) | The tag and the secrets | A built archive | A missing path or an authentication failure aborts the job |
+| 11 | Actions (`nexus-mods-release.yml`) | The archive | An updated Nexus Mods file | An upload or version conflict aborts the job |
+| 12 | Player | A subscription or download | The updated mod | None |
 
-## The asset name computation
+## The archive name computation
 
-The download step computes the asset name from the tag in two parts:
+The `github-release.yml` build step computes the asset name from the tag in two parts:
 
 | Part | Source | Value for tag `v2.0.0` |
 |------|--------|------------------------|
-| Repository and tag | `github.ref_name` | `v2.0.0` |
-| Version suffix | `GITHUB_REF:11`, stripping `refs/tags/v` | `2.0.0` |
-| Full asset name | Concatenation | `dracones-invictus_2.0.0.zip` |
+| Leading `v` | Stripped from the tag name | `2.0.0` |
+| Full asset name | `dracones-invictus_<version>.zip` | `dracones-invictus_2.0.0.zip` |
 
-Any deviation in the tag prefix length, the tag scheme, or the asset naming shifts the result and breaks the download. The contract is recorded in [invariants.md](../invariants.md).
+The Workshop and Nexus Mods workflows build their own archives from the checked-out tag and do not depend on this name. The contract is recorded in [invariants.md](../invariants.md).
 
 ## Alternate and manual paths
 
@@ -90,19 +87,17 @@ The automated path attaches the archive, publishes the Workshop item, and upload
 
 | Behaviour | Explanation |
 |-----------|-------------|
-| The workflows do not compile anything | The archive is built by zipping the already-authored mod directory |
-| The Workshop upload depends on the release archive | The tag-push trigger and the release-published trigger are distinct, so a missing or misnamed asset fails the download step |
-| The change note points at another repository | The `changenote` input links to `more-cultural-names`; recorded in [operations/ambiguities-and-open-questions.md](../operations/ambiguities-and-open-questions.md) |
-| The Nexus workflow builds its own archive | Unlike the Workshop workflow, it does not consume the GitHub release asset, so it does not depend on the release being published |
+| The workflows do not compile anything | Each archive is built by zipping the already-authored mod directory |
+| Each workflow builds its own archive | None consumes the GitHub release asset, so the release publication and the tag push are independent |
+| The change note points at this repository | The `changenote` input links to `imperator-dracones-invictus`, correcting the earlier `more-cultural-names` defect; recorded in [operations/ambiguities-and-open-questions.md](../operations/ambiguities-and-open-questions.md) |
 | A failed upload leaves the previous item content | No partial state is introduced |
 | No rollback exists | Correcting a bad release means publishing another release |
 
 ## Verifying a release
 
 1. Confirm that the GitHub Release workflow attached the archive.
-2. Confirm that the Workshop workflow run completed both the `Prepare` and `Upload` steps, and that the item shows the new version.
-3. Confirm that the Nexus Mods workflow run completed both the `Build the release archive` and `Upload` steps, and that the file shows the new version.
-3. Confirm that the change note renders as a link.
+2. Confirm that the Workshop workflow run completed the `Build the release archive`, `Extract the release archive`, and `Upload` steps, and that the item shows the new version.
+3. Confirm that the Nexus Mods workflow run completed the `Build the release archive` and `Upload` steps, and that the file shows the new version.
 4. Optionally, load the game and run the visual checks in [testing.md](../testing.md).
 
 ## Related documentation

@@ -9,7 +9,7 @@ imperator-dracones-invictus/
 │   └── workflows/
 │       ├── github-release.yml
 │       ├── nexus-mods-release.yml
-│       └── steam-workshop.yml
+│       └── steam-workshop-release.yml
 ├── dracones-invictus/
 │   ├── common/
 │   │   └── cultures/
@@ -53,7 +53,7 @@ A change to this internal layout is a change to the mounting contract. Directory
 |------|---------|
 | `dracones-invictus.mod` | Launcher-visible descriptor. Read by the launcher before mounting, so it must lie outside the mounted directory. |
 | `.github/workflows/github-release.yml` | Release automation. Builds and attaches the versioned archive to the GitHub release. |
-| `.github/workflows/steam-workshop.yml` | Release automation. Retrieves the archive and uploads it to the Steam Workshop. |
+| `.github/workflows/steam-workshop-release.yml` | Release automation. Builds the archive and uploads it to the Steam Workshop. |
 | `.github/workflows/nexus-mods-release.yml` | Release automation. Builds the archive and uploads it to Nexus Mods. |
 | `.github/FUNDING.yml` | Funding platform configuration, consumed by GitHub rather than by the game. |
 | Root policy documents | Repository governance, not game content. |
@@ -69,7 +69,7 @@ The two descriptors are intentionally unrelated to each other by reference. They
 | Documentation files | kebab-case | House convention for `docs/` |
 | Documentation directories | kebab-case, plural for collections | House convention for `docs/` |
 | Descriptor filename | `<mod-directory-name>.mod` at the root | Launcher convention |
-| Release asset | `dracones-invictus_<version>.zip` | Produced by the GitHub Release workflow and required verbatim by the Workshop workflow's download step |
+| Release asset | `dracones-invictus_<version>.zip` | Produced by the GitHub Release workflow and attached to the GitHub release |
 | Tag | `v<major>.<minor>.<patch>` | Matches the workflow trigger pattern |
 
 The two prefixes are load-order controls, not cosmetic identifiers. Renaming either file alters resolution precedence, as recorded in [configuration.md](./configuration.md).
@@ -84,7 +84,7 @@ The two prefixes are load-order controls, not cosmetic identifiers. Renaming eit
 | Revise display text | `dracones-invictus/localization/english/zzz_DI_l_english.yml` | [operations/change-guide.md](./operations/change-guide.md#revising-localisation-text) |
 | Change the targeted game version | Both descriptors | [configuration.md](./configuration.md) |
 | Replace the thumbnail | `dracones-invictus/thumb.jpg` | [operations/change-guide.md](./operations/change-guide.md#replacing-the-thumbnail) |
-| Change the release pipeline | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, `.github/workflows/nexus-mods-release.yml` | [build-and-deployment.md](./build-and-deployment.md) |
+| Change the release pipeline | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, `.github/workflows/nexus-mods-release.yml` | [build-and-deployment.md](./build-and-deployment.md) |
 
 ## Related documentation
 

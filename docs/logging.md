@@ -30,7 +30,7 @@ Not applicable. No two mod-owned events can be correlated with each other, becau
 
 ## Redaction and secrets
 
-The workflows consume `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` as environment variables and `NEXUSMODS_API_KEY` as an action input. The repository contains no log, cache, or artefact of those values, and no workflow step writes them to output. Any diagnostic that would expose them must not be added. See [security.md](./security.md) and [../../SECURITY.md](../SECURITY.md).
+The workflows consume `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FA_SEED` as environment variables and `NEXUSMODS_API_KEY` as an action input. The repository contains no log, cache, or artefact of those values, and no workflow step writes them to output. Any diagnostic that would expose them must not be added. See [security.md](./security.md) and [../../SECURITY.md](../SECURITY.md).
 
 ## Retention
 

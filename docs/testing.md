@@ -24,7 +24,7 @@ Run before every commit that changes data or metadata:
 - [ ] Every vanilla name token is still present in its original block.
 - [ ] Every mod token sits after the `# Dracones Invictus - Dacian` marker.
 - [ ] `levy_dacians` remains the group-level `levy_template`, and `odrysi` retains its `levy_thracians` override.
-- [ ] `dracones-invictus.mod` and `dracones-invictus/descriptor.mod` agree on `name`, `tags`, `supported_version`, and `path`.
+- [ ] `dracones-invictus.mod` and `dracones-invictus/descriptor.mod` agree on `version`, `name`, `tags`, `supported_version`, and `path`.
 - [ ] `path` equals `mod/dracones-invictus`, matching the directory name.
 - [ ] `zzz_DI_l_english.yml` retains the `l_english:` header at column zero and one leading space before each record.
 - [ ] The file remains UTF-8 with a byte order mark, matching the host localisation convention.
@@ -67,7 +67,7 @@ Step 7 is expected to reveal the known defect in [operations/troubleshooting.md]
 
 1. Push a tag matching `v*.*.*` and publish the GitHub release.
 2. Observe the GitHub Release workflow attaching `dracones-invictus_<version>.zip` to the release.
-3. Observe the Workshop workflow `Prepare` step completing the download and extraction.
+3. Observe the Workshop workflow `Build the release archive` and `Extract the release archive` steps completing.
 4. Observe the Workshop `Upload` step completing and confirm the item shows the new version.
 5. Observe the Nexus Mods workflow `Build the release archive` and `Upload` steps completing, and confirm the file shows the new version.
 

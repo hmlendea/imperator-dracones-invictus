@@ -72,7 +72,7 @@ This usually indicates a partial key correction. Verify each key individually ag
 | Check | Expected |
 |-------|----------|
 | The tag pattern | `v` followed by three dot-separated numbers |
-| The workflow file is on the default branch | `.github/workflows/steam-workshop.yml` |
+| The workflow file is on the default branch | `.github/workflows/steam-workshop-release.yml` |
 | The workflow file is valid YAML | No indentation error |
 
 ### The archive build fails
@@ -80,25 +80,17 @@ This usually indicates a partial key correction. Verify each key individually ag
 | Check | Expected |
 |-------|----------|
 | The GitHub Release workflow ran for the published release | Yes |
+| The Workshop and Nexus Mods workflows ran for the tag | Yes |
 | The packaged paths exist in the tag | `dracones-invictus/` and `dracones-invictus.mod` |
 
-### The download step fails
+### The Workshop upload step fails
 
 | Check | Expected |
 |-------|----------|
-| A release exists for the tag | Yes |
-| The GitHub Release workflow attached the archive | Yes |
-| The attached asset is named `dracones-invictus_<version>.zip` | Exact, with the leading `v` omitted from the version |
-| The release is published rather than a draft | Published |
-
-### The upload step fails
-
-| Check | Expected |
-|-------|----------|
-| The secrets exist | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` |
+| The secrets exist | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FA_SEED` |
 | The secrets are current | Not expired or rotated out |
 | The action inputs are accepted | The action's current input interface |
-| The extracted directory name | `dracones-invictus/` matching the workflow `path` input |
+| The extracted directory name | `release/dracones-invictus/` matching the workflow `path` input |
 
 An action interface change is a plausible cause, because the workflow references the action as `@latest` rather than pinning a version. See [dependencies.md](../dependencies.md).
 
@@ -116,16 +108,17 @@ An action interface change is a plausible cause, because the workflow references
 | Check | Expected |
 |-------|----------|
 | The validated data was tagged | Not an in-flight edit |
-| The archive content matches the repository tree | No stale archive from an earlier build |
+| The archive content matches the repository tree | No stale archive from an earlier run |
 | The archive is not doubly nested | The mod directory at the archive root |
 
 ## The change note links to the wrong repository
 
 | Aspect | Detail |
 |--------|--------|
-| Symptom | The Workshop change note links to `more-cultural-names` |
-| Cause | The `changenote` input references a different repository in its URL |
-| Correction | Point the URL at `imperator-dracones-invictus` |
+| Symptom | The Workshop change note linked to `more-cultural-names` |
+| Cause | The `changenote` input in the earlier `steam-workshop.yml` referenced a different repository in its URL |
+| Correction | The `steam-workshop-release.yml` workflow points the URL at `imperator-dracones-invictus` |
+| Status | Corrected by the workflow replacement |
 | Related | [operations/ambiguities-and-open-questions.md](./ambiguities-and-open-questions.md) |
 
 ## Diagnostic order

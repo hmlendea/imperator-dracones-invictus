@@ -6,6 +6,7 @@ The mod exposes no runtime configuration surface. Everything configurable is dec
 
 | Area | Source | Responsibility | Precedence or secret policy |
 |------|--------|----------------|-----------------------------|
+| `version` | Both descriptors | Mod revision shown by the launcher and distribution channels | Duplicated; maintained by hand, because no workflow revises the descriptors |
 | `name` | Both descriptors | Display name in the launcher and distribution channels | Duplicated in two files; both must carry the identical value |
 | `tags` | Both descriptors | Launcher-visible characteristics | Duplicated; no precedence mechanism exists |
 | `supported_version` | Both descriptors | Mount gate evaluated against the running host version | Duplicated; the loader evaluates the launcher-visible descriptor first |
@@ -14,7 +15,7 @@ The mod exposes no runtime configuration surface. Everything configurable is dec
 | Localisation file prefix | Filename | Localisation last-wins margin | Not configurable; encoded in the filename |
 | Release tag | Git | Workshop workflow trigger and version suffix | Pattern `v*.*.*` |
 | Release archive name | `.github/workflows/github-release.yml` | Archive construction and download step resolution | Must be `dracones-invictus_<tag-without-v>.zip` |
-| Steam identifiers | `.github/workflows/steam-workshop.yml` | Upload target selection | Public values, hard-coded |
+| Steam identifiers | `.github/workflows/steam-workshop-release.yml` | Upload target selection | Public values, hard-coded |
 | Steam credentials | Repository secrets | Workshop authentication | Never present in the repository; injected as environment variables at run time |
 | Nexus Mods file identifier | `.github/workflows/nexus-mods-release.yml` | Upload target selection | Public value, hard-coded (`526528`) |
 | Nexus Mods API key | Repository secrets | Nexus Mods authentication | Never present in the repository; injected as an action input at run time |
@@ -45,7 +46,7 @@ Treat both prefixes as contracts. See [invariants.md](./invariants.md).
 
 ## Descriptor duplication
 
-The two descriptors are not linked. They duplicate four values by design, because the host has no include or reference mechanism.
+The two descriptors are not linked. They duplicate five values by design, because the host has no include or reference mechanism.
 
 ```mermaid
 flowchart LR
@@ -65,7 +66,7 @@ flowchart LR
 
 ## Environment variables and command-line options
 
-None. The mod declares no environment variables and accepts no command-line arguments. The workflows consume five secrets (`GITHUB_TOKEN`, `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED`, and `NEXUSMODS_API_KEY`), which are configuration of the pipeline rather than of the mod.
+None. The mod declares no environment variables and accepts no command-line arguments. The workflows consume five secrets (`GITHUB_TOKEN`, `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FA_SEED`, and `NEXUSMODS_API_KEY`), which are configuration of the pipeline rather than of the mod.
 
 ## Related documentation
 

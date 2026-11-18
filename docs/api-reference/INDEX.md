@@ -112,6 +112,7 @@ Each record inside `culture` is a key with an empty or near-empty body:
 Two files use the identical schema and, in this repository, the identical content.
 
 ```text
+version="2.0.1"
 name="Dracones Invictus"
 tags={
         "Ironman Compatible"
@@ -123,12 +124,13 @@ path="mod/dracones-invictus"
 
 | Field | Type | Value | Contract |
 |-------|------|-------|----------|
+| `version` | Quoted version | `2.0.1` | Mod revision displayed by the launcher and the distribution channels; maintained by hand, because no workflow updates the descriptors |
 | `name` | Quoted string | `Dracones Invictus` | Display name in the launcher and distribution channels |
 | `tags` | Quoted string set | `Ironman Compatible`, `Interface` | Launcher-visible characteristics |
 | `supported_version` | Quoted version pattern | `2.0.*` | Version compatibility gate evaluated by the loader |
 | `path` | Quoted relative path | `mod/dracones-invictus` | Mount point for the mod content |
 
-Local-descriptor variant: a descriptor installed into the user mod directory may instead carry an absolute `path` such as a Steam Workshop content directory. The `ugc_<itemid>.mod` file placed by the Workshop subscriber is such a variant and preserves the same `name`, `tags`, and `supported_version` values.
+Local-descriptor variant: a descriptor installed into the user mod directory may instead carry an absolute `path` such as a Steam Workshop content directory. The `ugc_<itemid>.mod` file placed by the Workshop subscriber is such a variant and preserves the same `version`, `name`, `tags`, and `supported_version` values.
 
 ## Localisation schema
 
