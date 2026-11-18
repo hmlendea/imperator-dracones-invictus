@@ -28,7 +28,7 @@
 | Aspect | Detail |
 |--------|--------|
 | Inputs consumed | `appid`, `itemid`, `path`, `changenote` |
-| Environment consumed | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` |
+| Environment consumed | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FA_SEED` |
 | Pinning | `@latest`, which is unpinned and therefore a supply-chain coupling |
 | Failure semantics | The job fails and the item retains its previous content |
 | Mod-side control | The workflow may be revised; the action's own behaviour may not |
@@ -49,8 +49,8 @@
 |--------|--------|
 | Contract | An asset named `dracones-invictus_<tag-without-v>.zip` attached to the published release |
 | Producer | The `github-release.yml` workflow `Build the release archive` step |
-| Consumer | The `steam-workshop.yml` `Prepare` step |
-| Failure semantics | A missing or misnamed asset makes the download fail and abort the job |
+| Consumer | The GitHub Releases distribution channel and manual downloaders |
+| Failure semantics | A missing or misnamed asset is a distribution gap for GitHub Releases; the Workshop and Nexus Mods workflows build their own archives |
 | Mod-side control | The asset is built automatically from the mod directory and the root descriptor |
 
 ## Integration topology
@@ -60,14 +60,13 @@ flowchart LR
     subgraph Repository
         Data[Mod data]
         Build[github-release.yml]
-        Workflow[steam-workshop.yml]
+        Workflow[steam-workshop-release.yml]
         NexusWorkflow[nexus-mods-release.yml]
     end
     Maintainer[Maintainer] -->|Publish release| Build
     Build -->|Attach archive| Releases[GitHub Releases]
     Maintainer -->|Tag push| Workflow
     Maintainer -->|Tag push| NexusWorkflow
-    Workflow -->|Download| Releases
     Workflow -->|Upload| Workshop[Steam Workshop]
     NexusWorkflow -->|Upload| Nexus[Nexus Mods]
     Workshop -->|Deliver| Player[Player]

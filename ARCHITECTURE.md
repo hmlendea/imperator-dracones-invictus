@@ -83,7 +83,7 @@ flowchart TB
     subgraph Repo[Repository root]
         RootMod[dracones-invictus.mod]
         ReleaseWorkflow[.github/workflows/github-release.yml]
-        WorkshopWorkflow[.github/workflows/steam-workshop.yml]
+        WorkshopWorkflow[.github/workflows/steam-workshop-release.yml]
         NexusWorkflow[.github/workflows/nexus-mods-release.yml]
     end
     RootMod -->|path=mod/dracones-invictus| Mod
@@ -91,16 +91,15 @@ flowchart TB
     Cultures -->|Dacian culture group and name lists| Game
     Loc -->|Zamolxian localisation keys| Game
     ReleaseWorkflow -->|Builds and attaches the archive| Releases[GitHub Releases]
-    WorkshopWorkflow -->|Downloads and uploads| Workshop[Steam Workshop]
+    WorkshopWorkflow -->|Builds and uploads| Workshop[Steam Workshop]
     NexusWorkflow -->|Builds and uploads| Nexus[Nexus Mods]
-    Releases -.->|Supplies the archive| WorkshopWorkflow
 ```
 
 The principal architecture boundaries are:
 - **Mod Descriptor (`descriptor.mod` and the root `dracones-invictus.mod`):** Declares mod identity, tags, supported game version, and mount path. Permitted dependency: Imperator: Rome 2.0.x.
 - **Culture Data (`common/cultures/00_dacian.txt`):** Declares the `dacia_group` culture group, its name lists, family names, and constituent cultures. Permitted dependency: the game's culture data schema.
 - **Localisation (`localization/english/zzz_DI_l_english.yml`):** Supplies English text for modified Zamolxian keys. Permitted dependency: the game's localisation key namespace.
-- **Release Automation (`.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, and `.github/workflows/nexus-mods-release.yml`):** The GitHub Release workflow builds and attaches the versioned archive; the Steam Workshop workflow retrieves that archive and uploads the package to the Steam Workshop; the Nexus Mods workflow builds its own archive and uploads it to Nexus Mods. None depends on the mod data beyond packaging it.
+- **Release Automation (`.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, and `.github/workflows/nexus-mods-release.yml`):** The GitHub Release workflow builds and attaches the versioned archive; the Steam Workshop workflow builds its own archive and uploads the package to the Steam Workshop; the Nexus Mods workflow builds its own archive and uploads it to Nexus Mods. None depends on the mod data beyond packaging it.
 
 ## 🔄 Runtime Process
 
@@ -138,7 +137,7 @@ The principal runtime sequence is:
 | `dracones-invictus/localization/english/zzz_DI_l_english.yml` | Supplies English text for the modified Zamolxian faith keys | Imperator: Rome localisation loader | Static data; revised per content change |
 | `dracones-invictus/thumb.jpg` | Provides the mod thumbnail displayed by the launcher and distribution channels | Launcher and distribution channel metadata handling | Static asset; revised per release |
 | `.github/workflows/github-release.yml` | Builds the versioned archive from the released tag and attaches it to the GitHub release | GitHub Actions, GitHub Releases | Repository automation; executes per published release |
-| `.github/workflows/steam-workshop.yml` | Retrieves the tagged release archive and uploads the package to the Steam Workshop | GitHub Actions, GitHub Releases, Steam Workshop | Repository automation; executes per version tag |
+| `.github/workflows/steam-workshop-release.yml` | Builds the archive from the tagged content and uploads the package to the Steam Workshop | GitHub Actions, Steam Workshop | Repository automation; executes per version tag |
 | `.github/workflows/nexus-mods-release.yml` | Builds the versioned archive from the tagged content and uploads it to Nexus Mods | GitHub Actions, Nexus Mods | Repository automation; executes per version tag |
 
 ## 🗂️ Architectural Areas
@@ -187,19 +186,18 @@ Boundary rules:
 
 Paths:
 - `.github/workflows/github-release.yml`
-- `.github/workflows/steam-workshop.yml`
+- `.github/workflows/steam-workshop-release.yml`
 - `.github/workflows/nexus-mods-release.yml`
 
 Responsibilities:
 - Build the versioned archive from the released tag and attach it to the GitHub release.
-- Download the versioned archive attached to the triggered release.
-- Upload the unpacked package to the Steam Workshop item.
+- Build and upload the unpacked package to the Steam Workshop item.
 - Build and upload the versioned archive to Nexus Mods.
 
 Boundary rules:
 - Steam and Nexus credentials are supplied only through repository secrets and are never committed.
-- The Workshop workflow depends on the release archive existing for the pushed tag.
-- The archive is produced by the GitHub Release workflow rather than attached by hand.
+- Each workflow builds its own archive from the checked-out tag, so no workflow depends on the release asset produced by another.
+- The archive is produced by a workflow rather than attached by hand.
 
 ## 💾 Data Architecture
 
@@ -209,10 +207,14 @@ The mod owns no runtime state, database, or cache. Its data artefacts are declar
 flowchart LR
     Source[Repository source data] --> Tag[Version tag]
     Tag --> Build[GitHub Release workflow]
+    Tag --> WorkshopBuild[Steam Workshop workflow]
     Tag --> NexusBuild[Nexus Mods workflow]
     NexusBuild --> NexusArchive[Nexus Mods archive]
+    WorkshopBuild --> WorkshopArchive[Workshop archive]
     Build --> Archive[GitHub release archive]
-    Archive --> Channels[Steam Workshop / Nexus Mods / Manual Install]
+    Archive --> Channels[GitHub Releases / Manual Install]
+    NexusArchive --> Channels
+    WorkshopArchive --> Channels
     Channels --> ModDir[Local mod directory]
     ModDir --> VFS[Game virtual filesystem]
     VFS --> Merge[Merge over vanilla culture and localisation data]
@@ -235,7 +237,7 @@ flowchart LR
 | Imperator: Rome mod loader | Inbound | `descriptor.mod` syntax; `supported_version="2.0.*"`; mount path `mod/dracones-invictus` | Paradox Interactive | A version mismatch or malformed descriptor prevents the mod from mounting; the game proceeds with vanilla data |
 | Culture data schema | Inbound | Clausewitz block syntax and the culture group field set | Paradox Interactive | A malformed block causes the game to discard or ignore the culture data |
 | Localisation loader | Inbound | `l_english:` header with `key:0 "text"` records | Paradox Interactive | An unknown or malformed key is ignored; neighbouring keys remain unaffected |
-| GitHub Actions release triggers | Inbound | Publication of a GitHub release, and push of a `v*.*.*` tag for the Workshop and Nexus Mods uploads | Repository maintainers | A missing or misnamed release archive fails the Workshop workflow before upload |
+| GitHub Actions release triggers | Inbound | Publication of a GitHub release, and push of a `v*.*.*` tag for the Workshop and Nexus Mods uploads | Repository maintainers | A malformed or unbalanced archive fails the corresponding workflow before upload |
 | Steam Workshop upload | Outbound | `hmlendea/steam-workshop-update` action with application identifier `859580` and item identifier `1745923673` | Steam and the action author | An authentication or upload failure aborts the job; the published item retains its previous content |
 | Nexus Mods upload | Outbound | `Nexus-Mods/upload-action` with file identifier `526528` | Nexus Mods | An authentication or upload failure aborts the job; the mod file retains its previous version |
 | GitHub Releases, Nexus Mods, manual installation | Outbound | Versioned archive of the mod directory, or the directory contents directly | Repository maintainers | A mismatched archive or partial extraction yields an incomplete mod directory |
@@ -270,8 +272,8 @@ The mod owns no error handling because it contains no runtime logic. Failure tra
 | `supported_version` | `dracones-invictus.mod` and `dracones-invictus/descriptor.mod` | Governs whether the game mounts the mod | Must be revised when the target game version moves beyond 2.0.x |
 | `path` | Both descriptors | Governs the mounted relative path | Must match the directory name `dracones-invictus` |
 | `tags` | Both descriptors | Declares launcher-visible characteristics such as Ironman compatibility and interface modification | Metadata only |
-| Steam identifiers | `.github/workflows/steam-workshop.yml` | Select the target application and Workshop item | Public values; credentials are supplied only from repository secrets |
-| Release archive naming | `.github/workflows/github-release.yml` and `.github/workflows/steam-workshop.yml` | Build and retrieve the versioned archive | Contract on the archive name; see [docs/invariants.md](./docs/invariants.md) |
+| Steam identifiers | `.github/workflows/steam-workshop-release.yml` | Select the target application and Workshop item | Public values; credentials are supplied only from repository secrets |
+| Release archive naming | `.github/workflows/github-release.yml` | Build the versioned archive and name it deterministically | Contract on the archive name; see [docs/invariants.md](./docs/invariants.md) |
 | Load-order prefixes | Culture and localisation filenames | Determine resolution precedence against vanilla files | Prefix conventions are the only control over override order |
 
 ## 🧭 Dependency Direction and Rules
@@ -301,7 +303,7 @@ The principal dependency rules are:
 | Dependency | Responsibility | Integration Boundary | Architectural Consequence |
 |------------|----------------|----------------------|---------------------------|
 | Imperator: Rome 2.0.x data schema | Supplies the culture group, unit type, levy template, and localisation key namespaces | Mod data files | Any schema change in the host requires revision of the mod data and of `supported_version` |
-| GitHub Actions | Executes the release workflows | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, `.github/workflows/nexus-mods-release.yml` | Release capability depends on the workflows retaining valid secret bindings |
+| GitHub Actions | Executes the release workflows | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, `.github/workflows/nexus-mods-release.yml` | Release capability depends on the workflows retaining valid secret bindings |
 | `hmlendea/steam-workshop-update` action | Performs the Workshop item upload | Steam Workshop upload step | The workflow couples to the action's input interface |
 | `Nexus-Mods/upload-action` action | Performs the Nexus Mods file upload | Nexus Mods upload step | The workflow couples to the action's input interface |
 | Steam Workshop platform | Hosts and delivers the published item | Distribution channel | Published content is visible to players independent of repository state |
@@ -316,7 +318,7 @@ The deployment unit is a directory tree that the game mounts, not a process or s
 | Deployment unit | The `dracones-invictus/` directory, distributed as a versioned archive | Installation is the extraction of the directory into the game's mod path |
 | Persistent state | None owned by the mod; game save files remain outside its scope | Uninstallation consists of deleting the mod directory |
 | Target application | Steam application identifier `859580`; Workshop item `1745923673` | Release automation is bound to those identifiers |
-| Release trigger | Publication of a GitHub release, and push of a `v*.*.*` tag for the Workshop and Nexus Mods uploads | The release must be published before the Workshop workflow can retrieve its archive |
+| Release trigger | Publication of a GitHub release, and push of a `v*.*.*` tag for the Workshop and Nexus Mods uploads | The two triggers are independent, so the Workshop and Nexus Mods uploads do not require the release to be published first |
 | Scaling assumptions | None; every installation is independent and identical | No central component requires capacity planning |
 | Operator responsibility | Players manage installation, revision, and deletion; maintainers manage publication and version declarations | No operational guarantee accompanies the published package |
 
@@ -324,7 +326,7 @@ The deployment unit is a directory tree that the game mounts, not a process or s
 
 | Contract | Owner | Invariant | Verification | Change Policy |
 |----------|-------|-----------|--------------|---------------|
-| `descriptor.mod` field set | Mod maintainers | `name`, `tags`, `supported_version`, and `path` remain parseable by the launcher and loader | Manual inspection of both descriptors | Field additions require explicit descriptor test in game |
+| `descriptor.mod` field set | Mod maintainers | `version`, `name`, `tags`, `supported_version`, and `path` remain parseable by the launcher and loader | Manual inspection of both descriptors | Field additions require explicit descriptor test in game |
 | Mount path | Mod maintainers | `path="mod/dracones-invictus"` matches the directory name | Manual inspection | A rename requires simultaneous revision of both descriptors |
 | `supported_version` | Mod maintainers | Declares `2.0.*` | Game mount attempt | Revise only when the target game version changes |
 | Culture group identifier | Mod maintainers | `dacia_group` remains the group key | Game load of the culture data | Renaming breaks references to the group key |
@@ -381,7 +383,7 @@ Localisation keys must not collide with vanilla keys that the mod does not inten
 | Culture definitions | `dracones-invictus/common/cultures/00_dacian.txt` |
 | English localisation | `dracones-invictus/localization/english/zzz_DI_l_english.yml` |
 | Mod thumbnail | `dracones-invictus/thumb.jpg` |
-| Release automation | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, `.github/workflows/nexus-mods-release.yml` |
+| Release automation | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, `.github/workflows/nexus-mods-release.yml` |
 
 ## 📚 Related Documentation
 

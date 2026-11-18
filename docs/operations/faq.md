@@ -56,7 +56,7 @@ It is possible but out of the current scope. It would mean adding a directory su
 
 ### Why are there two descriptor files?
 
-The host has no include mechanism, so the launcher-visible descriptor at the repository root and the in-package descriptor duplicate four values. See DD-4 in [design-decisions.md](../design-decisions.md).
+The host has no include mechanism, so the launcher-visible descriptor at the repository root and the in-package descriptor duplicate five values. See DD-4 in [design-decisions.md](../design-decisions.md).
 
 ### Why is the culture file named `00_dacian.txt`?
 
@@ -78,7 +78,7 @@ No. The mod is data consumed by the game. The data contracts are documented in [
 
 ### How is a release published?
 
-A maintainer pushes a `v*.*.*` tag and publishes the GitHub release. The `github-release.yml` workflow builds the versioned archive and attaches it to the release; the `steam-workshop.yml` workflow downloads that archive and uploads it to the Steam Workshop; and the `nexus-mods-release.yml` workflow builds its own archive and uploads it to Nexus Mods. See [flows/release-and-publishing.md](../flows/release-and-publishing.md).
+A maintainer pushes a `v*.*.*` tag and publishes the GitHub release. The `github-release.yml` workflow builds the versioned archive and attaches it to the release; the `steam-workshop-release.yml` workflow builds its own archive and uploads it to the Steam Workshop; and the `nexus-mods-release.yml` workflow builds its own archive and uploads it to Nexus Mods. See [flows/release-and-publishing.md](../flows/release-and-publishing.md).
 
 ### Why did the release fail?
 

@@ -48,7 +48,7 @@ flowchart TD
 
 ## Secrets
 
-Three secrets are consumed by the Steam Workshop workflow: `STEAM_USERNAME`, `STEAM_PASSWORD`, and `STEAM_2FASEED`. The Nexus Mods workflow consumes `NEXUSMODS_API_KEY`. The GitHub Release workflow consumes only the automatic `GITHUB_TOKEN`. They are configured in the repository's settings, never in the workflow text. No other secret exists in the repository.
+Three secrets are consumed by the Steam Workshop workflow: `STEAM_USERNAME`, `STEAM_PASSWORD`, and `STEAM_2FA_SEED`. The Nexus Mods workflow consumes `NEXUSMODS_API_KEY`. The GitHub Release workflow consumes only the automatic `GITHUB_TOKEN`. They are configured in the repository's settings, never in the workflow text. No other secret exists in the repository. The former `STEAM_2FASEED` secret is superseded and may be removed from the repository settings.
 
 Handling rules:
 

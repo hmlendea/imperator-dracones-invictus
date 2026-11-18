@@ -12,7 +12,7 @@ The repository has no compilation step, no dependency restoration, no bundling, 
 | Static analysis | No | No linter or analyser configuration exists |
 | Tests | No | No test project exists |
 | Packaging | Yes | `.github/workflows/github-release.yml` zips the mod directory and descriptor into the release archive; `nexus-mods-release.yml` also zips them for the Nexus upload |
-| Publishing | Yes | `.github/workflows/github-release.yml` attaches the archive to the GitHub release; `steam-workshop.yml` uploads it to the Steam Workshop; `nexus-mods-release.yml` uploads it to Nexus Mods |
+| Publishing | Yes | `.github/workflows/github-release.yml` attaches the archive to the GitHub release; `steam-workshop-release.yml` builds and uploads to the Steam Workshop; `nexus-mods-release.yml` builds and uploads to Nexus Mods |
 
 ## Release pipeline
 
@@ -21,11 +21,10 @@ flowchart TD
     Release[Maintainer publishes a GitHub release] --> Pkg[github-release.yml triggers]
     Pkg --> Zip[Zip dracones-invictus/ and dracones-invictus.mod]
     Zip --> Asset[Attach dracones-invictus_VERSION.zip]
-    Tag[Maintainer pushes v*.*.* tag] --> Trigger[steam-workshop.yml triggers]
-    Tag --> Nexus[Nexus Mods]
-    Trigger --> Download[Download release asset dracones-invictus_TAG.zip]
-    Asset -.-> Download
-    Download --> Unzip[Unzip into dracones-invictus/]
+    Tag[Maintainer pushes v*.*.* tag] --> Trigger[steam-workshop-release.yml triggers]
+    Tag --> Nexus[nexus-mods-release.yml triggers]
+    Trigger --> ZipWorkshop[Zip dracones-invictus/ and dracones-invictus.mod into release.zip]
+    ZipWorkshop --> Unzip[Unzip into release/]
     Unzip --> Upload[steam-workshop-update action]
     Upload --> Workshop[Steam Workshop item 1745923673]
     Nexus --> ZipNexus[Zip dracones-invictus/ and dracones-invictus.mod]
@@ -33,7 +32,7 @@ flowchart TD
     UploadNexus --> NexusHost[nexusmods.com file 526528]
 ```
 
-The pipeline does not compile anything. It packages the already-authored mod directory. The `github-release.yml` workflow produces the archive on release publication, and the `steam-workshop.yml` workflow consumes that archive on tag push, so the release must be published before the Workshop upload runs. The `nexus-mods-release.yml` workflow builds its own archive from the checked-out tag and uploads it to Nexus Mods on the same tag push.
+The pipeline does not compile anything. It packages the already-authored mod directory. All three workflows build their own archive from the checked-out tag; none of them consumes a previously attached release asset. The `github-release.yml` workflow runs on release publication, while the Workshop and Nexus Mods workflows run on the `v*.*.*` tag push.
 
 ## Workflow reference
 
@@ -57,14 +56,16 @@ The workflow checks out the released tag, builds `dracones-invictus_<version>.zi
 
 | Property | Value |
 |----------|-------|
-| File | `.github/workflows/steam-workshop.yml` |
+| File | `.github/workflows/steam-workshop-release.yml` |
 | Name | `Steam Workshop` |
-| Trigger | `push` of a tag matching `v*.*.*` |
+| Trigger | `push` of a tag matching `v*.*.*`, or manual `workflow_dispatch` with a required `tag` input |
 | Runner | `ubuntu-latest` |
-| Job | `release`, named `Release (Steam Workshop)` |
-| Steps | `Prepare` (download and unzip), `Upload` (Workshop publish) |
+| Job | `release`, named `Release` |
+| Steps | `Build the release archive`, `Extract the release archive`, `Upload` |
 | Action used | `hmlendea/steam-workshop-update@latest` |
-| Secrets consumed | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` |
+| Secrets consumed | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FA_SEED` |
+
+The workflow checks out the requested tag, builds `release.zip` from `dracones-invictus/` and `dracones-invictus.mod`, extracts it into `release/`, and uploads `release/dracones-invictus/` to the Workshop item.
 
 ### Nexus Mods workflow
 
@@ -81,28 +82,16 @@ The workflow checks out the released tag, builds `dracones-invictus_<version>.zi
 
 The workflow checks out the requested tag, builds `release.zip` from `dracones-invictus/` and `dracones-invictus.mod`, and uploads it to Nexus Mods file `526528` as `dracones-invictus.zip`, with `archive_existing_version` and `update_mod_version` enabled.
 
-### Download step
-
-The download URL is constructed as:
-
-```text
-https://github.com/hmlendea/imperator-dracones-invictus/releases/download/${github.ref_name}/dracones-invictus_${GITHUB_REF:11}.zip
-```
-
-`${github.ref_name}` is the tag, for example `v2.0.0`. `${GITHUB_REF:11}` strips the `refs/tags/v` prefix, yielding `2.0.0` for that tag. The resulting asset name is therefore `dracones-invictus_2.0.0.zip`, which is the name that the `github-release.yml` build step produces.
-
-This construction encodes two contracts: the asset must be attached to the release for the pushed tag, and the version suffix in its filename must match the tag without the leading `v`.
-
-### Upload step
+### Workshop upload step
 
 | Input | Value |
 |-------|-------|
 | `appid` | `859580` (Imperator: Rome) |
 | `itemid` | `1745923673` (Dracones Invictus Workshop item) |
-| `path` | `dracones-invictus/` |
-| `changenote` | A Steam-formatted link to `https://github.com/hmlendea/more-cultural-names/releases/tag/<tag>` |
+| `path` | `release/dracones-invictus/` |
+| `changenote` | A Steam-formatted link to `https://github.com/hmlendea/imperator-dracones-invictus/releases/tag/<tag>` |
 
-> **Defect to be aware of**: the change note links to `more-cultural-names`, a different repository, rather than to `imperator-dracones-invictus`. The published change note therefore points at the wrong release page. This is recorded in [operations/ambiguities-and-open-questions.md](./operations/ambiguities-and-open-questions.md).
+The change note points at this repository's release page. The earlier workflow linked to `more-cultural-names`; that defect is corrected by this workflow, as recorded in [operations/ambiguities-and-open-questions.md](./operations/ambiguities-and-open-questions.md).
 
 ## Release procedure
 
@@ -113,11 +102,11 @@ This construction encodes two contracts: the asset must be attached to the relea
 5. Push the tag matching `v*.*.*` and publish the GitHub release for it.
 6. The `github-release.yml` workflow builds `dracones-invictus_<version>.zip` from the tag and attaches it to the release.
 7. Verify that the version suffix in the asset filename equals the tag without the leading `v`.
-8. The `steam-workshop.yml` workflow downloads the asset and publishes it to the Workshop.
+8. The `steam-workshop-release.yml` workflow builds its own archive from the tag and publishes it to the Workshop.
 9. The `nexus-mods-release.yml` workflow builds its own archive from the tag and uploads it to Nexus Mods.
 10. Verify all three workflow runs, the attached release asset, the Workshop item, and the Nexus Mods file.
 
-Steps 1 through 5 are manual. The repository automates the archive construction, the release attachment, the Workshop publication, and the Nexus Mods upload. Because the Workshop workflow triggers on the tag push while the archive is attached on release publication, publish the release promptly after pushing the tag so the asset exists when the download step runs.
+Steps 1 through 5 are manual. The repository automates the archive construction, the release attachment, the Workshop publication, and the Nexus Mods upload. All three workflows are independent: each builds its own archive from the checked-out tag, so the release publication only affects the GitHub release asset and does not gate the Workshop or Nexus Mods uploads.
 
 ## Distribution channels
 
@@ -133,7 +122,7 @@ Steps 1 through 5 are manual. The repository automates the archive construction,
 | Environment | Purpose | Deployment method |
 |-------------|---------|-------------------|
 | Maintainer workstation | Authoring, local validation, release creation | Direct file editing and manual game load |
-| GitHub Actions `ubuntu-latest` | Workshop and Nexus Mods publication | Workflows on tag push, and the GitHub Release workflow on release publication |
+| GitHub Actions `ubuntu-latest` | GitHub release, Workshop, and Nexus Mods publication | Workflows on tag push, and the GitHub Release workflow on release publication |
 | Player machine | Consumption | Workshop subscription, archive extraction, or launcher installation |
 
 There is no staging environment, no canary, no rollback mechanism, and no feature flag. A defective release is corrected by publishing a further release.
@@ -144,7 +133,7 @@ There is no staging environment, no canary, no rollback mechanism, and no featur
 |-------------|--------|
 | The mod directory name must be `dracones-invictus` | The descriptor `path` and the mount contract refer to it |
 | `descriptor.mod` must be inside the package | The loader reads it after mounting |
-| The archive must contain the directory tree at its root, not nested inside an extra folder | The workflow unzips into `dracones-invictus/`, so an extra nesting level produces a doubly nested mod |
+| The archive must contain the directory tree at its root, not nested inside an extra folder | The Workshop workflow unzips into `release/` and uploads `release/dracones-invictus/`, so an extra nesting level produces a doubly nested mod |
 | `thumb.jpg` must accompany the package | Launcher and distribution channels display it |
 | No compiled, temporary, or editor backup files may be included | The package is mounted wholesale as game data |
 

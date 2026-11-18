@@ -18,7 +18,7 @@
 | Steam Workshop | Hosts and delivers the published item | Application `859580`, item `1745923673` | Item relocation or identifier change invalidates the workflow inputs |
 | Nexus Mods | Secondary distribution channel | `imperatorrome/mods/24`, file `526528` | File relocation or identifier change invalidates the workflow input |
 | `Nexus-Mods/upload-action@v1.0.0-beta.11` | Uploads the package to the Nexus Mods file | Action input interface, pinned to `v1.0.0-beta.11` | A breaking change in the action's inputs fails the upload step |
-| GitHub Releases | Holds the versioned archive that the Workshop workflow downloads | Asset naming contract | A renamed or absent asset fails the download step; the archive is produced by the `github-release.yml` workflow |
+| GitHub Releases | Holds the versioned archive produced by the Release workflow | Asset naming contract | A renamed or absent asset is a distribution gap; the Workshop and Nexus Mods workflows build their own archives and are unaffected |
 | Git | Version control and tag-based release triggers | Tag pattern `v*.*.*` | Tag naming drift breaks both the trigger and the asset resolution |
 
 ## Internal dependencies
@@ -63,7 +63,7 @@ The legacy `v19.139` tag predates the repository's semantic-versioning conventio
 | Dependency | Verification method |
 |------------|---------------------|
 | Host schema and key locations | Direct inspection of the installed game data under `game/common/cultures/` and `game/localization/english/` |
-| Workflow inputs | Read of `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, and `.github/workflows/nexus-mods-release.yml` |
+| Workflow inputs | Read of `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop-release.yml`, and `.github/workflows/nexus-mods-release.yml` |
 | Workshop identification | Read of the workflow inputs, together with the Workshop item identifier in the README |
 | Release assets | GitHub API release listing |
 | Action pinning | Read of the workflow `uses` field |

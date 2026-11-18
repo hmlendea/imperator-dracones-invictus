@@ -19,11 +19,12 @@ Items where the evidence available in the repository is incomplete, contradictor
 
 | Aspect | Detail |
 |--------|--------|
-| Known | The `changenote` input constructs a URL containing `hmlendea/more-cultural-names` |
-| Consequence | The published change note points at the wrong release page |
-| Unknown | Whether this is a copy-paste artefact or an intentional cross-reference |
-| Resolution | Point the URL at `hmlendea/imperator-dracones-invictus` |
-| Verified by | Read of the workflow `changenote` input |
+| Known | The earlier `steam-workshop.yml` `changenote` input constructed a URL containing `hmlendea/more-cultural-names` |
+| Consequence | The published change note pointed at the wrong release page |
+| Unknown | Whether this was a copy-paste artefact or an intentional cross-reference |
+| Resolution | The `steam-workshop-release.yml` workflow points the URL at `hmlendea/imperator-dracones-invictus` |
+| Status | Corrected |
+| Verified by | Read of the current `steam-workshop-release.yml` `changenote` input |
 
 ## Unverified areas
 
@@ -93,16 +94,16 @@ Items where the evidence available in the repository is incomplete, contradictor
 
 | Aspect | Detail |
 |--------|--------|
-| Known | The two files currently carry the same four values, but the `path` field can legitimately differ, because a Workshop-installed descriptor carries an absolute path |
+| Known | The two files currently carry the same five values (`version`, `name`, `tags`, `supported_version`, `path`), but the `path` field can legitimately differ, because a Workshop-installed descriptor carries an absolute path |
 | Unknown | Whether any other field is permitted to differ |
 | Consequence | A rule that demanded byte identity would be too strict |
-| Resolution | The invariant is stated as value agreement for the four shared fields rather than byte identity; revisit if a divergence proves harmless |
+| Resolution | The invariant is stated as value agreement for the five shared fields rather than byte identity; revisit if a divergence proves harmless |
 
 ## Deliberately unresolved
 
 | Item | Reason for deferral |
 |------|---------------------|
-| Pinning the Workshop upload action | Not evidenced as required; a decision, not an unknown |
+| Pinning the Workshop upload action | The template references `hmlendea/steam-workshop-update@latest`; a decision, not an unknown |
 | Adding non-English localisation | A scope decision, not an unknown |
 | Adding an automated validation script | The repository has no execution surface; a decision recorded in DD-10 |
 | Adding a content integrity checksum to releases | A supply-chain improvement with no current requirement |
