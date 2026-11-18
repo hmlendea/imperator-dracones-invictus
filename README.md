@@ -31,6 +31,23 @@ Dracones Invictus is a static data-only mod that overrides the Imperator: Rome D
 
 See the [ARCHITECTURE.md](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
 
+## 📚 Documentation
+
+Comprehensive documentation for maintainers and contributors is available in the [`docs/`](./docs/) directory:
+
+| Resource | Description |
+|----------|-------------|
+| [Documentation Index](./docs/INDEX.md) | Master catalogue, navigation aids, and coverage status |
+| [Data Contracts](./docs/api-reference/INDEX.md) | Culture group, descriptor, and localisation schemas, and override precedence |
+| [Quick Start](./docs/operations/quick-start.md) | Onboarding for a new contributor |
+| [Architecture Deep Dive](./docs/architecture.md) | The two override mechanisms and their consequences |
+| [Change Guide](./docs/operations/change-guide.md) | Safe procedures for modifying names, localisation, and metadata |
+| [Repository Structure](./docs/repository-structure.md) | File inventory, tree semantics, and naming conventions |
+| [Build and Deployment](./docs/build-and-deployment.md) | Packaging, tagging, and publishing pipeline |
+| [Invariants](./docs/invariants.md) | Properties that must hold across every release |
+| [Troubleshooting](./docs/operations/troubleshooting.md) | Diagnosing load and publishing failures |
+| [FAQ](./docs/operations/faq.md) | Frequently asked questions |
+
 ## 🤝 Contributing
 
 You are welcome to submit any suggestion, feedback, or modification to this project.
