@@ -10,7 +10,7 @@
 | Steam Workshop | Outbound | Publishes and delivers the packaged mod | Valve | Upload action with application and item identifiers |
 | GitHub Releases | Outbound | Hosts the versioned archive that the Workshop workflow retrieves | GitHub | Release asset at a deterministic URL |
 | GitHub Actions | Infrastructure | Executes the publication pipeline | GitHub | Release-published and tag-triggered workflows |
-| Nexus Mods | Outbound, manual | Secondary distribution | Nexus Mods | Manual upload |
+| Nexus Mods | Outbound | Secondary distribution | Nexus Mods | Upload action with a file identifier |
 
 ## Integration detail
 
@@ -33,6 +33,16 @@
 | Failure semantics | The job fails and the item retains its previous content |
 | Mod-side control | The workflow may be revised; the action's own behaviour may not |
 
+### Nexus Mods upload action
+
+| Aspect | Detail |
+|--------|--------|
+| Inputs consumed | `api_key`, `file_id`, `filename`, `display_name`, `version`, `description`, `category`, `archive_existing_version`, `update_mod_version` |
+| Environment consumed | `NEXUSMODS_API_KEY` (repository secret) |
+| Pinning | `v1.0.0-beta.11` |
+| Failure semantics | The job fails and the Nexus Mods file retains its previous version |
+| Mod-side control | The workflow builds its own archive and may be revised freely |
+
 ### Release archive
 
 | Aspect | Detail |
@@ -51,13 +61,15 @@ flowchart LR
         Data[Mod data]
         Build[github-release.yml]
         Workflow[steam-workshop.yml]
+        NexusWorkflow[nexus-mods-release.yml]
     end
     Maintainer[Maintainer] -->|Publish release| Build
     Build -->|Attach archive| Releases[GitHub Releases]
     Maintainer -->|Tag push| Workflow
+    Maintainer -->|Tag push| NexusWorkflow
     Workflow -->|Download| Releases
     Workflow -->|Upload| Workshop[Steam Workshop]
-    Maintainer -->|Manual upload| Nexus[Nexus Mods]
+    NexusWorkflow -->|Upload| Nexus[Nexus Mods]
     Workshop -->|Deliver| Player[Player]
     Nexus -->|Deliver| Player
     Releases -->|Deliver| Player
@@ -91,6 +103,7 @@ No channel addition requires a change to the mod data, because the package is th
 | Action interface change | Workflow inputs to action | Publication failure |
 | Workshop identifier change | Workflow inputs to item | Publication to a wrong or nonexistent item |
 | Archive naming drift | Release asset name to workflow download URL | Publication failure |
+| Nexus file identifier change | Workflow input to file | Publication to a wrong or nonexistent file |
 | Channel policy change | Publication to platform rules | Item delisting or removal |
 
 ## Related documentation

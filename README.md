@@ -50,6 +50,7 @@ Enable the mod in the Imperator: Rome launcher and start the game. The expanded 
 | Workflow | Purpose | What it does |
 |----------|---------|--------------|
 | [ github-release.yml ](https://github.com/hmlendea/imperator-dracones-invictus/blob/master/.github/workflows/github-release.yml) | GitHub Release | Runs on a published release or manual dispatch: checks out the released tag, zips `dracones-invictus/` and `dracones-invictus.mod` into `dracones-invictus_<version>.zip`, and attaches the archive to the GitHub release |
+| [ nexus-mods-release.yml ](https://github.com/hmlendea/imperator-dracones-invictus/blob/master/.github/workflows/nexus-mods-release.yml) | Release to Nexus Mods | Runs on a `v*.*.*` tag push or manual dispatch: checks out the tag, zips `dracones-invictus/` and `dracones-invictus.mod` into `release.zip`, and uploads it to Nexus Mods file `526528` as `dracones-invictus.zip` |
 | [ steam-workshop.yml ](https://github.com/hmlendea/imperator-dracones-invictus/blob/master/.github/workflows/steam-workshop.yml) | Release to Steam Workshop | Runs on a `v*.*.*` tag push: downloads `dracones-invictus_<version>.zip` from the GitHub release, extracts it, and uploads the content to Workshop item `1745923673` |
 
 ## 🏗️ Architecture

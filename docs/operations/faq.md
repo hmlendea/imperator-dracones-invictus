@@ -78,7 +78,7 @@ No. The mod is data consumed by the game. The data contracts are documented in [
 
 ### How is a release published?
 
-A maintainer pushes a `v*.*.*` tag and publishes the GitHub release. The `github-release.yml` workflow builds the versioned archive and attaches it to the release, and the `steam-workshop.yml` workflow downloads that archive and uploads it to the Steam Workshop. See [flows/release-and-publishing.md](../flows/release-and-publishing.md).
+A maintainer pushes a `v*.*.*` tag and publishes the GitHub release. The `github-release.yml` workflow builds the versioned archive and attaches it to the release; the `steam-workshop.yml` workflow downloads that archive and uploads it to the Steam Workshop; and the `nexus-mods-release.yml` workflow builds its own archive and uploads it to Nexus Mods. See [flows/release-and-publishing.md](../flows/release-and-publishing.md).
 
 ### Why did the release fail?
 

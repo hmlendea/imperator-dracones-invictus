@@ -31,10 +31,9 @@ Items where the evidence available in the repository is incomplete, contradictor
 
 | Aspect | Detail |
 |--------|--------|
-| Known | The README manual installation step links the latest release to `hmlendea/more-cultural-names/releases` |
-| Unknown | Whether the intent is to point at this repository's releases |
-| Resolution | Confirm the intended target and correct the link |
-| Effect if wrong | A player following the manual route is directed to another project |
+| Known | The README manual installation step previously linked the latest release to `hmlendea/more-cultural-names/releases` |
+| Resolution | Corrected to point at `hmlendea/imperator-dracones-invictus/releases/latest` |
+| Status | Resolved |
 
 ### A-4: Whether the mod data matches a clean upstream install
 

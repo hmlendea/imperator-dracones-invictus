@@ -42,7 +42,7 @@ Only the first row is genuinely order-sensitive in a way that can silently chang
 | Job count | One |
 | Step execution | Sequential within the job |
 | Concurrent runs | Possible if two tags are pushed near-simultaneously |
-| Effect of concurrent runs | Each run publishes its own version; the later upload determines the final item content |
+| Effect of concurrent runs | Each run publishes its own version; the later upload determines the final item and file content |
 | Guidance | Push one release tag at a time, and confirm the run completes before pushing the next |
 
 This is the only place where two independent executions can influence a shared resource, and the shared resource is the Workshop item rather than any repository state.

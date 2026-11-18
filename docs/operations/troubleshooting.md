@@ -102,6 +102,15 @@ This usually indicates a partial key correction. Verify each key individually ag
 
 An action interface change is a plausible cause, because the workflow references the action as `@latest` rather than pinning a version. See [dependencies.md](../dependencies.md).
 
+### The Nexus Mods upload fails
+
+| Check | Expected |
+|-------|----------|
+| The secret exists | `NEXUSMODS_API_KEY` |
+| The file identifier matches the mod | `526528` |
+| The action inputs are accepted | The action's current input interface |
+| The archive contains the mod directory at its root | `dracones-invictus/` and `dracones-invictus.mod` |
+
 ### The published content is wrong
 
 | Check | Expected |
