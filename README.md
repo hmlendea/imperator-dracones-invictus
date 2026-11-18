@@ -25,6 +25,12 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
  - Download the [latest release](https://github.com/hmlendea/more-cultural-names/releases)
  - Extract the contents into your game's mod directory (delete the old files when updating)
 
+## 🏗️ Architecture
+
+Dracones Invictus is a static data-only mod that overrides the Imperator: Rome Dacian culture group and selected Zamolxian localisation keys through the game's native mod loader. It contains no executable code, runtime, scripting, or network communication.
+
+See the [ARCHITECTURE.md](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
+
 ## 🤝 Contributing
 
 You are welcome to submit any suggestion, feedback, or modification to this project.
