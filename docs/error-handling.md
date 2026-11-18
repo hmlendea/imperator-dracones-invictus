@@ -67,6 +67,16 @@ The mod contains no code, so it owns no error handling. Every failure is produce
 | Recovery | Publish the release so the GitHub Release workflow attaches the archive, then re-run |
 | Preventive control | Release procedure in [build-and-deployment.md](./build-and-deployment.md) |
 
+### Nexus Mods upload failure
+
+| Aspect | Detail |
+|--------|--------|
+| Trigger | The `NEXUSMODS_API_KEY` secret is invalid or expired, the file identifier is wrong, or the action interface changed |
+| Owner | Nexus Mods workflow `Upload` step |
+| Observable symptom | The action fails; the Nexus Mods file is not updated |
+| Recovery | Correct the secret or the file identifier and re-run the workflow |
+| Preventive control | Secrets and file identifier maintenance in [configuration.md](./configuration.md) |
+
 ### Upload failure
 
 | Aspect | Detail |

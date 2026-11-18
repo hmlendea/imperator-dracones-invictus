@@ -131,7 +131,7 @@ stateDiagram-v2
     [*] --> SourceData
     SourceData --> Packaged: Maintainer archives the mod directory
     Packaged --> Released: Release asset published
-    Released --> Distributed: Workshop upload or manual installation
+    Released --> Distributed: Workshop or Nexus Mods upload, or manual installation
     Distributed --> Mounted: Loader accepts the version gate
     Distributed --> Rejected: Loader refuses the version gate
     Mounted --> Active: Engine reads the culture and localisation data

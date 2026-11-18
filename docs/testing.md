@@ -68,8 +68,8 @@ Step 7 is expected to reveal the known defect in [operations/troubleshooting.md]
 1. Push a tag matching `v*.*.*` and publish the GitHub release.
 2. Observe the GitHub Release workflow attaching `dracones-invictus_<version>.zip` to the release.
 3. Observe the Workshop workflow `Prepare` step completing the download and extraction.
-4. Observe the `Upload` step completing.
-5. Confirm that the Workshop item shows the new version.
+4. Observe the Workshop `Upload` step completing and confirm the item shows the new version.
+5. Observe the Nexus Mods workflow `Build the release archive` and `Upload` steps completing, and confirm the file shows the new version.
 
 ## Coverage gaps
 

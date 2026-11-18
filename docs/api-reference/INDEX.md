@@ -182,7 +182,8 @@ Because the culture override is file-level rather than record-level, the mod fil
 | Asset location | `https://github.com/hmlendea/imperator-dracones-invictus/releases/download/<tag>/<asset>` |
 | Consumer trigger | Push of a tag matching `v*.*.*` |
 | Extraction target | `dracones-invictus/` in the workflow workspace |
-| Upload target | Steam Workshop application `859580`, item `1745923673` |
+| Steam upload target | Steam Workshop application `859580`, item `1745923673` |
+| Nexus upload target | Nexus Mods `imperatorrome/mods/24`, file `526528`, archive `release.zip` displayed as `dracones-invictus.zip` |
 
 ## Versioning
 

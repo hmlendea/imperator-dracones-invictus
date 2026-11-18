@@ -11,8 +11,8 @@ The repository has no compilation step, no dependency restoration, no bundling, 
 | Bundling | No | The directory is the unit |
 | Static analysis | No | No linter or analyser configuration exists |
 | Tests | No | No test project exists |
-| Packaging | Yes | `.github/workflows/github-release.yml` zips the mod directory and descriptor into the release archive |
-| Publishing | Yes | `.github/workflows/github-release.yml` attaches the archive to the GitHub release; `steam-workshop.yml` uploads it to the Steam Workshop |
+| Packaging | Yes | `.github/workflows/github-release.yml` zips the mod directory and descriptor into the release archive; `nexus-mods-release.yml` also zips them for the Nexus upload |
+| Publishing | Yes | `.github/workflows/github-release.yml` attaches the archive to the GitHub release; `steam-workshop.yml` uploads it to the Steam Workshop; `nexus-mods-release.yml` uploads it to Nexus Mods |
 
 ## Release pipeline
 
@@ -22,14 +22,18 @@ flowchart TD
     Pkg --> Zip[Zip dracones-invictus/ and dracones-invictus.mod]
     Zip --> Asset[Attach dracones-invictus_VERSION.zip]
     Tag[Maintainer pushes v*.*.* tag] --> Trigger[steam-workshop.yml triggers]
+    Tag --> Nexus[Nexus Mods]
     Trigger --> Download[Download release asset dracones-invictus_TAG.zip]
     Asset -.-> Download
     Download --> Unzip[Unzip into dracones-invictus/]
     Unzip --> Upload[steam-workshop-update action]
     Upload --> Workshop[Steam Workshop item 1745923673]
+    Nexus --> ZipNexus[Zip dracones-invictus/ and dracones-invictus.mod]
+    ZipNexus --> UploadNexus[Nexus-Mods/upload-action]
+    UploadNexus --> NexusHost[nexusmods.com file 526528]
 ```
 
-The pipeline does not compile anything. It packages the already-authored mod directory. The `github-release.yml` workflow produces the archive on release publication, and the `steam-workshop.yml` workflow consumes that archive on tag push, so the release must be published before the Workshop upload runs.
+The pipeline does not compile anything. It packages the already-authored mod directory. The `github-release.yml` workflow produces the archive on release publication, and the `steam-workshop.yml` workflow consumes that archive on tag push, so the release must be published before the Workshop upload runs. The `nexus-mods-release.yml` workflow builds its own archive from the checked-out tag and uploads it to Nexus Mods on the same tag push.
 
 ## Workflow reference
 
@@ -61,6 +65,21 @@ The workflow checks out the released tag, builds `dracones-invictus_<version>.zi
 | Steps | `Prepare` (download and unzip), `Upload` (Workshop publish) |
 | Action used | `hmlendea/steam-workshop-update@latest` |
 | Secrets consumed | `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` |
+
+### Nexus Mods workflow
+
+| Property | Value |
+|----------|-------|
+| File | `.github/workflows/nexus-mods-release.yml` |
+| Name | `Nexus Mods` |
+| Trigger | `push` of a tag matching `v*.*.*`, or manual `workflow_dispatch` with a required `tag` input |
+| Runner | `ubuntu-latest` |
+| Job | `release`, named `Release` |
+| Steps | `Build the release archive`, `Upload` |
+| Action used | `Nexus-Mods/upload-action@v1.0.0-beta.11` |
+| Secrets consumed | `NEXUSMODS_API_KEY` |
+
+The workflow checks out the requested tag, builds `release.zip` from `dracones-invictus/` and `dracones-invictus.mod`, and uploads it to Nexus Mods file `526528` as `dracones-invictus.zip`, with `archive_existing_version` and `update_mod_version` enabled.
 
 ### Download step
 
@@ -95,9 +114,10 @@ This construction encodes two contracts: the asset must be attached to the relea
 6. The `github-release.yml` workflow builds `dracones-invictus_<version>.zip` from the tag and attaches it to the release.
 7. Verify that the version suffix in the asset filename equals the tag without the leading `v`.
 8. The `steam-workshop.yml` workflow downloads the asset and publishes it to the Workshop.
-9. Verify both workflow runs and the resulting Workshop item.
+9. The `nexus-mods-release.yml` workflow builds its own archive from the tag and uploads it to Nexus Mods.
+10. Verify all three workflow runs, the attached release asset, the Workshop item, and the Nexus Mods file.
 
-Steps 1 through 5 are manual. The repository automates the archive construction, the release attachment, and the Workshop publication. Because the Workshop workflow triggers on the tag push while the archive is attached on release publication, publish the release promptly after pushing the tag so the asset exists when the download step runs.
+Steps 1 through 5 are manual. The repository automates the archive construction, the release attachment, the Workshop publication, and the Nexus Mods upload. Because the Workshop workflow triggers on the tag push while the archive is attached on release publication, publish the release promptly after pushing the tag so the asset exists when the download step runs.
 
 ## Distribution channels
 
@@ -105,7 +125,7 @@ Steps 1 through 5 are manual. The repository automates the archive construction,
 |---------|-----------|------------|--------------|
 | Steam Workshop | Workflow upload to item `1745923673` | Automated on tag push | Inspect the workflow run and the item page |
 | GitHub Releases | Archive attached by the GitHub Release workflow | Automated on release publication | Inspect the workflow run and the release page |
-| Nexus Mods | Manual upload to `imperatorrome/mods/24` | Not automated | Inspect the mod page |
+| Nexus Mods | Workflow upload to `imperatorrome/mods/24` (file `526528`) | Automated on tag push | Inspect the workflow run and the mod page |
 | Manual installation | Player extracts the archive into the game mod directory | None | Load the game and confirm the content |
 
 ## Environments
@@ -113,7 +133,7 @@ Steps 1 through 5 are manual. The repository automates the archive construction,
 | Environment | Purpose | Deployment method |
 |-------------|---------|-------------------|
 | Maintainer workstation | Authoring, local validation, release creation | Direct file editing and manual game load |
-| GitHub Actions `ubuntu-latest` | Workshop publication | Workflow on tag push |
+| GitHub Actions `ubuntu-latest` | Workshop and Nexus Mods publication | Workflows on tag push, and the GitHub Release workflow on release publication |
 | Player machine | Consumption | Workshop subscription, archive extraction, or launcher installation |
 
 There is no staging environment, no canary, no rollback mechanism, and no feature flag. A defective release is corrected by publishing a further release.

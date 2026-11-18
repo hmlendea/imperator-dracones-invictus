@@ -20,8 +20,9 @@ There is no mod-side sink.
 |---------|-------|---------|
 | Host game output | Host engine | Host-generated messages, which may include mount warnings for a descriptor issue |
 | Launcher output | Host launcher | Host-generated messages, which may include version warnings |
-| GitHub Actions run output | GitHub | Workflow step results for the GitHub Release and Steam Workshop workflows |
+| GitHub Actions run output | GitHub | Workflow step results for the GitHub Release, Steam Workshop, and Nexus Mods workflows |
 | Steam Workshop item history | Steam | Publication records and change notes |
+| Nexus Mods file history | Nexus Mods | File version records |
 
 ## Correlation
 
@@ -29,7 +30,7 @@ Not applicable. No two mod-owned events can be correlated with each other, becau
 
 ## Redaction and secrets
 
-The workflow consumes three secrets, `STEAM_USERNAME`, `STEAM_PASSWORD`, and `STEAM_2FASEED`, as environment variables. The repository contains no log, cache, or artefact of those values, and no workflow step writes them to output. Any diagnostic that would expose them must not be added. See [security.md](./security.md) and [../../SECURITY.md](../SECURITY.md).
+The workflows consume `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED` as environment variables and `NEXUSMODS_API_KEY` as an action input. The repository contains no log, cache, or artefact of those values, and no workflow step writes them to output. Any diagnostic that would expose them must not be added. See [security.md](./security.md) and [../../SECURITY.md](../SECURITY.md).
 
 ## Retention
 

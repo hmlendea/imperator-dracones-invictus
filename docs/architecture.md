@@ -130,6 +130,7 @@ flowchart TD
 | Mod data to host identifier namespace | Paradox Interactive | Names of culture groups, cultures, unit types, levy templates, localisation keys | References to existing identifiers; new identifiers only where the host permits definition |
 | Repository to release pipeline | Repository maintainers | A correctly named release archive | The pipeline may be revised freely within its own contract |
 | Release pipeline to Steam | Valve | The unpacked mod directory and credentials from secrets | No mod data is transformed at this boundary |
+| Release pipeline to Nexus Mods | Nexus Mods | A zipped archive of the mod directory and credentials from secrets | No mod data is transformed at this boundary |
 
 ## Architectural risk summary
 

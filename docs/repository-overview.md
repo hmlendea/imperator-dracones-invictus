@@ -10,7 +10,7 @@ The mod owns exactly three data surfaces:
 
 1. The Dacian culture group declaration, including its unit composition references, levy template reference, male and female name pools, family names, and constituent culture records.
 2. Seven English localisation records that revise the display text of the Zalmoxian faith and the Zalmoxis treasure.
-3. Mod metadata that the launcher and the game loader read: two descriptor files, a thumbnail, and two release workflows.
+3. Mod metadata that the launcher and the game loader read: two descriptor files, a thumbnail, and three release workflows.
 
 Everything else that a player observes — the game engine, the character naming algorithm, the faith mechanics, the treasury item behaviour, the launcher — belongs to the host and is out of scope.
 
@@ -19,7 +19,7 @@ Everything else that a player observes — the game engine, the character naming
 | Fact | Value | Evidence |
 |------|-------|----------|
 | Target host | Imperator: Rome 2.0.x | `supported_version="2.0.*"` in both descriptors |
-| Distribution channels | Steam Workshop, Nexus Mods, GitHub Releases | README installation badges; workflow upload step |
+| Distribution channels | Steam Workshop, Nexus Mods, GitHub Releases | README installation badges; workflow upload steps |
 | Steam application identifier | `859580` | `.github/workflows/steam-workshop.yml` |
 | Steam Workshop item identifier | `1745923673` | `.github/workflows/steam-workshop.yml` |
 | Release archive production | Automated | Produced and attached by `.github/workflows/github-release.yml` |
@@ -39,7 +39,7 @@ Everything else that a player observes — the game engine, the character naming
 | Localisation records | 6 declared keys (7 lines including the language header) | `dracones-invictus/localization/english/zzz_DI_l_english.yml` |
 | Descriptors | 2, mutually identical | `dracones-invictus.mod`, `dracones-invictus/descriptor.mod` |
 | Binary assets | 1 thumbnail, 500×500 JPEG | `dracones-invictus/thumb.jpg` |
-| Workflows | 2 | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml` |
+| Workflows | 3 | `.github/workflows/github-release.yml`, `.github/workflows/steam-workshop.yml`, `.github/workflows/nexus-mods-release.yml` |
 
 ## Entry points
 
@@ -49,7 +49,7 @@ Everything else that a player observes — the game engine, the character naming
 | In-package descriptor | Imperator: Rome mod loader after mounting | `dracones-invictus/descriptor.mod` |
 | Culture group data | Culture loader | `dracones-invictus/common/cultures/00_dacian.txt` |
 | Localisation records | Localisation loader | `dracones-invictus/localization/english/zzz_DI_l_english.yml` |
-| Release trigger | GitHub Actions | A published GitHub release, or a `v*.*.*` tag push for the Workshop upload |
+| Release trigger | GitHub Actions | A published GitHub release, or a `v*.*.*` tag push for the Workshop and Nexus Mods uploads |
 
 ## Notable characteristics
 

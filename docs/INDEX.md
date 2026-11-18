@@ -15,6 +15,7 @@
 | LICENSE | GNU General Public License v3.0 | [LICENSE](../LICENSE) |
 | dracones-invictus.mod | Launcher-visible mod descriptor | [dracones-invictus.mod](../dracones-invictus.mod) |
 | .github/workflows/github-release.yml | Release automation (GitHub release archive) | [github-release.yml](../.github/workflows/github-release.yml) |
+| .github/workflows/nexus-mods-release.yml | Release automation (Nexus Mods upload) | [nexus-mods-release.yml](../.github/workflows/nexus-mods-release.yml) |
 | .github/workflows/steam-workshop.yml | Release automation (Steam Workshop upload) | [steam-workshop.yml](../.github/workflows/steam-workshop.yml) |
 | .github/FUNDING.yml | Funding platform configuration | [FUNDING.yml](../.github/FUNDING.yml) |
 

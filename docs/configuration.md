@@ -14,8 +14,10 @@ The mod exposes no runtime configuration surface. Everything configurable is dec
 | Localisation file prefix | Filename | Localisation last-wins margin | Not configurable; encoded in the filename |
 | Release tag | Git | Workshop workflow trigger and version suffix | Pattern `v*.*.*` |
 | Release archive name | `.github/workflows/github-release.yml` | Archive construction and download step resolution | Must be `dracones-invictus_<tag-without-v>.zip` |
-| Steam identifiers | Workflow file | Upload target selection | Public values, hard-coded |
+| Steam identifiers | `.github/workflows/steam-workshop.yml` | Upload target selection | Public values, hard-coded |
 | Steam credentials | Repository secrets | Workshop authentication | Never present in the repository; injected as environment variables at run time |
+| Nexus Mods file identifier | `.github/workflows/nexus-mods-release.yml` | Upload target selection | Public value, hard-coded (`526528`) |
+| Nexus Mods API key | Repository secrets | Nexus Mods authentication | Never present in the repository; injected as an action input at run time |
 
 ## Version gate
 
@@ -63,7 +65,7 @@ flowchart LR
 
 ## Environment variables and command-line options
 
-None. The mod declares no environment variables and accepts no command-line arguments. The workflow consumes three secrets, which are configuration of the pipeline rather than of the mod.
+None. The mod declares no environment variables and accepts no command-line arguments. The workflows consume five secrets (`GITHUB_TOKEN`, `STEAM_USERNAME`, `STEAM_PASSWORD`, `STEAM_2FASEED`, and `NEXUSMODS_API_KEY`), which are configuration of the pipeline rather than of the mod.
 
 ## Related documentation
 
