@@ -15,21 +15,26 @@ sequenceDiagram
     autonumber
     participant M as Maintainer
     participant G as GitHub Releases
-    participant A as GitHub Actions
+    participant A as GitHub Actions (github-release.yml)
+    participant W as GitHub Actions (steam-workshop.yml)
     participant S as Steam Workshop
     participant P as Player
 
     M->>M: Validate the data against the checklist
-    M->>G: Create the release for tag vX.Y.Z
-    M->>G: Attach dracones-invictus_X.Y.Z.zip
-    M->>A: Push tag vX.Y.Z
-    A->>A: Match the trigger pattern v*.*.*
-    A->>G: Download the asset for the tag
-    G-->>A: The archive
-    A->>A: Unzip into dracones-invictus/
-    A->>S: Upload with appid 859580 and itemid 1745923673
-    S-->>A: Item updated
-    A-->>M: Workflow run succeeds
+    M->>M: Push tag vX.Y.Z
+    M->>G: Publish the release for tag vX.Y.Z
+    G->>A: Release published trigger
+    A->>A: Check out the tag
+    A->>A: Build dracones-invictus_X.Y.Z.zip from the mod directory and descriptor
+    A->>G: Attach the archive to the release
+    M->>W: Tag push vX.Y.Z
+    W->>W: Match the trigger pattern v*.*.*
+    W->>G: Download the asset for the tag
+    G-->>W: The archive
+    W->>W: Unzip into dracones-invictus/
+    W->>S: Upload with appid 859580 and itemid 1745923673
+    S-->>W: Item updated
+    W-->>M: Workflow run succeeds
     S-->>P: The item is available at the new version
 ```
 
@@ -38,14 +43,16 @@ sequenceDiagram
 | Step | Actor | Input | Output | Failure behaviour |
 |------|-------|-------|--------|-------------------|
 | 1 | Maintainer | Changed data | Validated content | A missed check publishes an unvalidated package |
-| 2 | Maintainer | Version number | A release object | A release without an asset breaks the next step |
-| 3 | Maintainer | Archive | An attached asset usable by the workflow | A misnamed asset breaks the download |
-| 4 | Maintainer | Tag | A workflow trigger | A tag outside the pattern does not trigger anything |
-| 5 | Actions | The tag reference | A resolved asset URL | A malformed construction fails the download |
-| 6 | Actions | The asset URL | The archive in the workspace | A download failure aborts the job |
-| 7 | Actions | The archive | The mod directory in the workspace | An extra nesting level produces a doubly nested tree; see [build-and-deployment.md](../build-and-deployment.md) |
-| 8 | Actions | The directory and the secrets | A published Workshop revision | An authentication or interface failure aborts the job |
-| 9 | Player | A subscription | The updated mod | None |
+| 2 | Maintainer | Version number | A tag and a published release | A release published without the tag, or a tag without a release, breaks a later step |
+| 3 | Actions (`github-release.yml`) | The released tag | A checked-out tag | A malformed tag reference fails the job |
+| 4 | Actions (`github-release.yml`) | The tag name | A version with the leading `v` stripped | A tag outside the scheme produces an odd archive name |
+| 5 | Actions (`github-release.yml`) | The mod directory and descriptor | An attached archive | A missing path fails the `zip` step |
+| 6 | Maintainer | Tag | A Workshop workflow trigger | A tag outside the pattern does not trigger anything |
+| 7 | Actions (`steam-workshop.yml`) | The tag reference | A resolved asset URL | A malformed construction fails the download |
+| 8 | Actions (`steam-workshop.yml`) | The asset URL | The archive in the workspace | A download failure aborts the job |
+| 9 | Actions (`steam-workshop.yml`) | The archive | The mod directory in the workspace | An extra nesting level produces a doubly nested tree; see [build-and-deployment.md](../build-and-deployment.md) |
+| 10 | Actions (`steam-workshop.yml`) | The directory and the secrets | A published Workshop revision | An authentication or interface failure aborts the job |
+| 11 | Player | A subscription | The updated mod | None |
 
 ## The asset name computation
 
@@ -63,8 +70,8 @@ Any deviation in the tag prefix length, the tag scheme, or the asset naming shif
 
 ```mermaid
 flowchart TD
-    Release[Release created]
-    Release --> Auto[Automated: Workshop upload]
+    Release[Release published]
+    Release --> Auto[Automated: archive build, attachment, and Workshop upload]
     Release --> ManualGh[Manual: GitHub Releases download by the player]
     Release --> ManualNexus[Manual: Nexus Mods upload then player download]
     Auto --> Player[Player]
@@ -72,14 +79,14 @@ flowchart TD
     ManualNexus --> Player
 ```
 
-The automated path publishes the Workshop item. The manual paths are independent and require no workflow.
+The automated path attaches the archive and publishes the Workshop item. The manual Nexus Mods path is independent and requires no workflow.
 
 ## Non-obvious behaviours
 
 | Behaviour | Explanation |
 |-----------|-------------|
-| The workflow does not build anything | The archive must already exist as a release asset |
-| A tag without a release asset fails the job | The download step has no fallback |
+| The workflows do not compile anything | The archive is built by zipping the already-authored mod directory |
+| The Workshop upload depends on the release archive | The tag-push trigger and the release-published trigger are distinct, so a missing or misnamed asset fails the download step |
 | The change note points at another repository | The `changenote` input links to `more-cultural-names`; recorded in [operations/ambiguities-and-open-questions.md](../operations/ambiguities-and-open-questions.md) |
 | A failed upload leaves the previous item content | No partial state is introduced |
 | No rollback exists | Correcting a bad release means publishing another release |

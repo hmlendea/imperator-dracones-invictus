@@ -17,13 +17,16 @@ The mod's surface is the set of files that the host parses. There is no process,
 
 ```mermaid
 flowchart TD
-    Maintainer[Maintainer workstation] -->|Push tag| Actions[GitHub Actions]
+    Maintainer[Maintainer workstation] -->|Publish release and push tag| Actions[GitHub Actions]
+    Actions -->|Attach archive| Releases[GitHub Releases]
     Actions -->|Secret injection| Workshop[Steam Workshop]
-    Workshop -->|Download| Player[Player machine]
+    Releases -->|Download| Player[Player machine]
+    Workshop -->|Download| Player
     Player -->|Mount| Host[Host process]
 
     Maintainer -.->|Untrusted input boundary| Actions
     Actions -.->|Secret boundary| Workshop
+    Releases -.->|Content integrity boundary| Player
     Workshop -.->|Content integrity boundary| Player
 ```
 
@@ -41,7 +44,7 @@ flowchart TD
 
 ## Secrets
 
-Three secrets are consumed by the release workflow: `STEAM_USERNAME`, `STEAM_PASSWORD`, and `STEAM_2FASEED`. They are configured in the repository's settings, never in the workflow text. No other secret exists in the repository.
+Three secrets are consumed by the Steam Workshop workflow: `STEAM_USERNAME`, `STEAM_PASSWORD`, and `STEAM_2FASEED`. The GitHub Release workflow consumes only the automatic `GITHUB_TOKEN`. They are configured in the repository's settings, never in the workflow text. No other secret exists in the repository.
 
 Handling rules:
 

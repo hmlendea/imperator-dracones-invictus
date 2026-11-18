@@ -1,8 +1,24 @@
-[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest)
+[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest) [![Build Status](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml/badge.svg)](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml)
 
 # About
 
 This is a mod for Imperator Rome that brings more flavour and changes to the dacian cultures.
+
+## 📑 Table of Contents
+
+- [About](#about)
+- [Useful links](#useful-links)
+- [Capabilities](#capabilities)
+- [Usage](#usage)
+- [Installation](#installation)
+  - [Manual installation](#manual-installation)
+- [GitHub Actions](#github-actions)
+- [Architecture](#architecture)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Code of Conduct](#code-of-conduct)
+- [Privacy and Data](#privacy-and-data)
+- [Security](#security)
 
 # Useful links
 
@@ -10,11 +26,15 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 - [Nexus Mods page](https://nexusmods.com/imperatorrome/mods/24)
 - [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=1745923673)
 
-# Features
+## ✨ Capabilities
 
  - Many new dacian male and female names
  - Renamed Zalmoxis/Zalmoxianism to Zamolxis/Zamolxianism
  - Some distinct flavour descriptions here and there (WIP)
+
+## 🚀 Usage
+
+Enable the mod in the Imperator: Rome launcher and start the game. The expanded Dacian name pool applies to newly generated characters, and the revised Zamolxian faith and treasure text appears wherever the game displays those records.
 
 # Installation
 
@@ -22,14 +42,21 @@ This is a mod for Imperator Rome that brings more flavour and changes to the dac
 
 ## Manual installation
 
- - Download the [latest release](https://github.com/hmlendea/more-cultural-names/releases)
+ - Download the [latest release](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest)
  - Extract the contents into your game's mod directory (delete the old files when updating)
+
+## ⚙️ GitHub Actions
+
+| Workflow | Purpose | What it does |
+|----------|---------|--------------|
+| [ github-release.yml ](https://github.com/hmlendea/imperator-dracones-invictus/blob/master/.github/workflows/github-release.yml) | GitHub Release | Runs on a published release or manual dispatch: checks out the released tag, zips `dracones-invictus/` and `dracones-invictus.mod` into `dracones-invictus_<version>.zip`, and attaches the archive to the GitHub release |
+| [ steam-workshop.yml ](https://github.com/hmlendea/imperator-dracones-invictus/blob/master/.github/workflows/steam-workshop.yml) | Release to Steam Workshop | Runs on a `v*.*.*` tag push: downloads `dracones-invictus_<version>.zip` from the GitHub release, extracts it, and uploads the content to Workshop item `1745923673` |
 
 ## 🏗️ Architecture
 
 Dracones Invictus is a static data-only mod that overrides the Imperator: Rome Dacian culture group and selected Zamolxian localisation keys through the game's native mod loader. It contains no executable code, runtime, scripting, or network communication.
 
-See the [ARCHITECTURE.md](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
+See the [Architecture Documentation](./ARCHITECTURE.md) for the system context, principal components, runtime processes, ownership boundaries, dependencies, constraints, and extension points.
 
 ## 📚 Documentation
 

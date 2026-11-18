@@ -12,11 +12,12 @@
 
 | Dependency | Responsibility | Integration boundary | Consequence of its change |
 |------------|----------------|----------------------|---------------------------|
-| GitHub Actions | Executes the release workflow | Trigger on `v*.*.*` tag push | A runner or syntax change in the workflow format disrupts publication |
+| GitHub Actions | Executes the release workflows | GitHub Release on release publication; Steam Workshop on `v*.*.*` tag push | A runner or syntax change in the workflow format disrupts publication |
 | `hmlendea/steam-workshop-update@latest` | Uploads the package to the Workshop item | Action input interface, pinned to `@latest` | A breaking change in the action's inputs fails the upload step; because the reference is unpinned, behaviour may change without any repository change |
+| `softprops/action-gh-release@v2` | Attaches the built archive to the GitHub release | Action input interface, pinned to `v2` | A breaking change in the action's inputs fails the publish step |
 | Steam Workshop | Hosts and delivers the published item | Application `859580`, item `1745923673` | Item relocation or identifier change invalidates the workflow inputs |
 | Nexus Mods | Secondary distribution channel | `imperatorrome/mods/24` | Independent of the repository; changes are manual |
-| GitHub Releases | Holds the versioned archive that the workflow downloads | Asset naming contract | A renamed or absent asset fails the download step |
+| GitHub Releases | Holds the versioned archive that the Workshop workflow downloads | Asset naming contract | A renamed or absent asset fails the download step; the archive is produced by the `github-release.yml` workflow |
 | Git | Version control and tag-based release triggers | Tag pattern `v*.*.*` | Tag naming drift breaks both the trigger and the asset resolution |
 
 ## Internal dependencies
@@ -31,7 +32,8 @@ None. The mod references only host-declared identifiers and does not depend on a
 
 ```mermaid
 flowchart TD
-    Workflow[Release workflow] --> Archive[Release asset]
+    Build[GitHub Release workflow] --> Archive[Release asset]
+    Workflow[Steam Workshop workflow] --> Archive
     Archive --> Package[Mod package]
     Package --> Culture[Culture data]
     Package --> Loc[Localisation data]
@@ -50,6 +52,8 @@ The direction is acyclic. Automation reads the package, the package references t
 | Release assets | `v2.0.0` current | GitHub release listing |
 | Historical tags | `v1.0.1`, `v19.139` | Git tag list |
 
+The release archive is produced by `.github/workflows/github-release.yml` rather than attached by hand; earlier releases predate that workflow.
+
 The legacy `v19.139` tag predates the repository's semantic-versioning convention and is retained for historical releases. Future releases are expected to follow the `v*.*.*` form that the workflow trigger requires.
 
 ## Verification methods
@@ -57,7 +61,7 @@ The legacy `v19.139` tag predates the repository's semantic-versioning conventio
 | Dependency | Verification method |
 |------------|---------------------|
 | Host schema and key locations | Direct inspection of the installed game data under `game/common/cultures/` and `game/localization/english/` |
-| Workflow inputs | Read of `.github/workflows/steam-workshop.yml` |
+| Workflow inputs | Read of `.github/workflows/github-release.yml` and `.github/workflows/steam-workshop.yml` |
 | Workshop identification | Read of the workflow inputs, together with the Workshop item identifier in the README |
 | Release assets | GitHub API release listing |
 | Action pinning | Read of the workflow `uses` field |

@@ -138,7 +138,7 @@ flowchart TD
 | Silent content loss | Whole-file supersession | A field omitted during a revision disappears in game without an error | [invariants.md](./invariants.md) mandates a complete-file check |
 | Silent no-op text change | Last-wins record supersession | A mistyped key defines an unused key and changes nothing visible | [testing.md](./testing.md) prescribes a key-by-key visual check |
 | Version gate closure | `supported_version="2.0.*"` | A host version outside 2.0.x refuses to mount the mod | [configuration.md](./configuration.md) records the revision procedure |
-| Pipeline breakage | Release archive name contract | A renamed or manually attached asset fails the download step | [build-and-deployment.md](./build-and-deployment.md) records the asset naming contract |
+| Pipeline breakage | Release archive name contract | A renamed asset, or a build step that omits a packaged path, fails the download step | [build-and-deployment.md](./build-and-deployment.md) records the asset naming contract |
 
 ## Related documentation
 

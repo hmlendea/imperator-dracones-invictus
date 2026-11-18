@@ -11,7 +11,7 @@ The mod has no concurrency surface. It contains no threads, no asynchronous work
 | Threads | No | No executable content exists |
 | Async or await | No | No executable content exists |
 | Parallel processing | No | No executable content exists |
-| Schedulers or cron | No | The release workflow triggers on tags, which is event-driven rather than scheduled |
+| Schedulers or cron | No | The release workflows trigger on release publication and tag push, which are event-driven rather than scheduled |
 | Locks or mutexes | No | No shared mutable state exists |
 | Worker pools | No | No work is dispatched |
 | Timers or debounce | No | No runtime exists |
@@ -31,7 +31,7 @@ Filename ordering is the only temporal consideration in the repository, and it i
 |----------|-----------|-------------|
 | Localisation record resolution | Filename sort order across the localisation directory | Later files win a key; the `zzz_DI_` prefix provides the margin |
 | Culture file resolution | Path identity rather than ordering | The prefix `00_` aligns with host layout but does not decide resolution |
-| Release steps | Sequential steps in one workflow job | The download step must complete before the upload step |
+| Release steps | Sequential steps in each workflow job | In the Workshop workflow, the download step must complete before the upload step |
 
 Only the first row is genuinely order-sensitive in a way that can silently change behaviour. It is recorded as an invariant in [invariants.md](./invariants.md) and as a risk in [architecture.md](./architecture.md).
 

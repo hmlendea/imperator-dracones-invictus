@@ -30,8 +30,8 @@ stateDiagram-v2
     [*] --> Authored: Maintainer edits the data files
     Authored --> Committed: Commit to the repository
     Committed --> Tagged: Version tag pushed
-    Tagged --> Packaged: Archive created and attached to the release
-    Packaged --> Published: Workshop upload or manual channel upload
+    Tagged --> Released: Release published and archive attached by the GitHub Release workflow
+    Released --> Published: Workshop upload or manual channel upload
     Published --> Installed: Player installs or subscribes
     Installed --> Mounted: Host loader reads the data
     Mounted --> Session: Data is active in game

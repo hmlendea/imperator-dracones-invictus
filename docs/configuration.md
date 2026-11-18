@@ -12,8 +12,8 @@ The mod exposes no runtime configuration surface. Everything configurable is dec
 | `path` | Both descriptors | Mount point for the mod content | Duplicated; the launcher-visible descriptor may be rewritten by the subscriber to an absolute Workshop path |
 | Culture file prefix | Filename | Culture file ordering | Not configurable; encoded in the filename |
 | Localisation file prefix | Filename | Localisation last-wins margin | Not configurable; encoded in the filename |
-| Release tag | Git | Release trigger and version suffix | Pattern `v*.*.*` |
-| Release asset name | External release attachment | Download step resolution | Must be `dracones-invictus_<tag-without-v>.zip` |
+| Release tag | Git | Workshop workflow trigger and version suffix | Pattern `v*.*.*` |
+| Release archive name | `.github/workflows/github-release.yml` | Archive construction and download step resolution | Must be `dracones-invictus_<tag-without-v>.zip` |
 | Steam identifiers | Workflow file | Upload target selection | Public values, hard-coded |
 | Steam credentials | Repository secrets | Workshop authentication | Never present in the repository; injected as environment variables at run time |
 

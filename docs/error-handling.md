@@ -47,14 +47,24 @@ The mod contains no code, so it owns no error handling. Every failure is produce
 
 ## Pipeline failures
 
+### Archive build failure
+
+| Aspect | Detail |
+|--------|--------|
+| Trigger | A packaged path such as `dracones-invictus/` or `dracones-invictus.mod` is missing from the checked-out tag |
+| Owner | GitHub Release workflow `Build the release archive` step |
+| Observable symptom | `zip` fails or the attached archive is incomplete |
+| Recovery | Correct the tag and republish the release |
+| Preventive control | Packaging requirements in [build-and-deployment.md](./build-and-deployment.md) |
+
 ### Download failure
 
 | Aspect | Detail |
 |--------|--------|
 | Trigger | The release asset does not exist, or its name does not match `dracones-invictus_<tag-without-v>.zip` |
-| Owner | Workflow `Prepare` step |
+| Owner | Workshop workflow `Prepare` step |
 | Observable symptom | `wget` fails; the job aborts before upload |
-| Recovery | Attach a correctly named asset to the release and re-run |
+| Recovery | Publish the release so the GitHub Release workflow attaches the archive, then re-run |
 | Preventive control | Release procedure in [build-and-deployment.md](./build-and-deployment.md) |
 
 ### Upload failure

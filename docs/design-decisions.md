@@ -76,15 +76,15 @@ Each decision below is grounded in repository evidence. Where a decision is infe
 
 ## DD-7: Unpinned action reference in the release workflow
 
-**Decision**: The workflow consumes `hmlendea/steam-workshop-update@latest`.
+**Decision**: The Workshop workflow consumes `hmlendea/steam-workshop-update@latest`, while the GitHub Release workflow consumes the pin-major `softprops/action-gh-release@v2`.
 
-**Evidence**: The `uses` field in `.github/workflows/steam-workshop.yml`.
+**Evidence**: The `uses` fields in `.github/workflows/steam-workshop.yml` and `.github/workflows/github-release.yml`.
 
 **Rationale**: Not evidenced; inferred as convenience, because pinning to a commit hash or tag would be the more conservative alternative.
 
-**Consequence**: Behaviour of the upload step may change without any change in this repository. This is a supply-chain coupling rather than a data coupling, and it is recorded in [dependencies.md](./dependencies.md).
+**Consequence**: Behaviour of the upload step may change without any change in this repository. This is a supply-chain coupling rather than a data coupling, and it is recorded in [dependencies.md](./dependencies.md). The GitHub Release action is pinned to a major version, which bounds surprise changes to within that major line.
 
-**Status**: Verified presence of the reference; the rationale is inferred.
+**Status**: Verified presence of both references; the rationales are inferred.
 
 ## DD-8: English-only localisation
 
@@ -100,15 +100,15 @@ Each decision below is grounded in repository evidence. Where a decision is infe
 
 ## DD-9: Steam Workshop as the primary channel
 
-**Decision**: The repository automates only the Workshop upload. Nexus Mods and GitHub Releases remain manual.
+**Decision**: The repository automates the GitHub release archive and the Steam Workshop upload. Nexus Mods remains manual.
 
-**Evidence**: One workflow exists, and the README installation badges include all three channels.
+**Evidence**: Two workflows exist (`.github/workflows/github-release.yml` and `.github/workflows/steam-workshop.yml`), and the README installation badges include all three channels.
 
-**Rationale**: Not evidenced; inferred from the Workshop-specific trigger and workflow content.
+**Rationale**: Not evidenced; inferred from the release and Workshop-specific triggers and workflow content.
 
-**Consequence**: The Workshop item is the only channel whose content is machine-published, so a publication defect there propagates automatically. The other channels require a human upload, which is slower but gives a natural checkpoint.
+**Consequence**: The GitHub release and the Workshop item are machine-published, so a publication defect there propagates automatically. The Nexus Mods channel requires a human upload, which is slower but gives a natural checkpoint.
 
-**Status**: Verified that only the Workshop is automated; the rationale is inferred.
+**Status**: Verified that the GitHub release archive and the Workshop upload are automated; the rationale is inferred.
 
 ## DD-10: No documentation test harness
 
