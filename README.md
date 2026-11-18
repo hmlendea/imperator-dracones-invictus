@@ -44,3 +44,9 @@ Dracones Invictus does not collect, process, transmit, or persist any personal d
 For the detailed description of how the application handles privacy and personal data, see the [Privacy Statement](./PRIVACY.md).
 
 The mod performs no network requests and contains no analytics, diagnostics, telemetry, or update checks. All mod data remains in the local game mod directory under your direct control.
+
+## 🔒 Security
+
+Dracones Invictus is a static data-only mod for Imperator: Rome with no executable code, runtime, or network communication, so its security surface is limited to the integrity of the distributed mod files.
+
+For information on reporting security vulnerabilities, see the [Security Policy](./SECURITY.md).
