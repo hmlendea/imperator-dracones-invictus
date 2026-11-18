@@ -37,6 +37,10 @@ There are a few ways you can do so:
 
 It would also be very helpful if you could provide a link to a source that can atest the authenticity of your intended changes, when possible.
 
+## 📜 Code of Conduct
+
+See the [Code of Conduct](./CODE_OF_CONDUCT.md) for the standards of conduct expected in all project spaces.
+
 ## 🛡️ Privacy and Data
 
 Dracones Invictus does not collect, process, transmit, or persist any personal data. The mod consists solely of static Dacian culture definitions and English localisation text that the Imperator: Rome game engine reads locally.
