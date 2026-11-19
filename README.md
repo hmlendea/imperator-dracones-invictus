@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest) [![Build Status](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml/badge.svg)](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml)
+[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/funding) [![Latest GitHub release](https://img.shields.io/github/v/release/hmlendea/imperator-dracones-invictus)](https://github.com/hmlendea/imperator-dracones-invictus/releases/latest) [![Build Status](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml/badge.svg)](https://github.com/hmlendea/imperator-dracones-invictus/actions/workflows/github-release.yml)
 
 # About
 
